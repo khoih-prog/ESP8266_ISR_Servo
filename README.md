@@ -1,10 +1,10 @@
 # ESP8266_ISR_Servo Library
 
-This library enables you to use 1 Hardware Timer on an ESP8266-based board to control up to 16 servo motors.
+This library enables you to use `1 Hardware Timer` on an ESP8266-based board to control up to `16 independent servo motors`.
 
 ***Why do we need this ISR-based Servo controller?***
 
-Imagine you have a system with a mission-critical function, controlling a robot arm or doing something much more important. You normally use a software timer to poll, or even place the function in loop(). But what if another function is blocking the loop() or setup().
+Imagine you have a system with a `mission-critical function`, controlling a `robot arm` or doing something much more important. You normally use a software timer to poll, or even place the function in loop(). But what if another function is blocking the loop() or setup().
 
 So your function might not be executed, and the result would be disastrous.
 
@@ -16,14 +16,14 @@ These hardware timers, using interrupt, still work even if other functions are b
 
 Functions using normal software timers, relying on loop() and calling millis(), won't work if the loop() or setup() is blocked by certain operation. For example, certain function is blocking while it's connecting to WiFi or some services.
 
-The catch is your function is now part of an ISR (Interrupt Service Routine), and must be lean / mean, and follow certain rules. More to read on:
+The catch is your function is now part of an `ISR (Interrupt Service Routine)`, and must be `lean / mean`, and follow certain rules. More to read on:
 
 https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/
 
 **Important Notes:**
-1. Inside the attached function, delay() won’t work and the value returned by millis() will not increment. Serial data received while in the function may be lost. You should declare as volatile any variables that you modify within the attached function.
+1. Inside the attached function, `delay()` won’t work and the value returned by `millis()` will not increment. Serial data received while in the function may be lost. You should declare as volatile any variables that you modify within the attached function.
 
-2. Typically global variables are used to pass data between an ISR and the main program. To make sure variables shared between an ISR and the main program are updated correctly, declare them as volatile.
+2. Typically global variables are used to pass data between an ISR and the main program. To make sure variables shared between an ISR and the main program are updated correctly, declare them as `volatile`.
 
 ## Installation
 1. Navigate to (https://github.com/khoih-prog/ESP8266_ISR_Servo) page.
