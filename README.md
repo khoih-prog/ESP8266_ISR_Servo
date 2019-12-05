@@ -2,7 +2,7 @@
 
 This library enables you to use 1 Hardware Timer on an ESP8266-based board to control up to 16 servo motors.
 
-Why do we need this ISR-based Servo control?
+***Why do we need this ISR-based Servo controller?***
 
 Imagine you have a system with a mission-critical function, controlling a robot arm or doing something much more important. You normally use a software timer to poll, or even place the function in loop(). But what if another function is blocking the loop() or setup().
 
@@ -40,7 +40,7 @@ Using 256 prescaler, maximum timer1 interval is only 26.843542 seconds !!!
 
 The timer1 counters can be configured to support automatic reload.
 
-## New from v1.0.2
+## New from v1.0.0
 
 Now these new `16 ISR-based Servo controllers` just use one ESP8266 Hardware Timer. The number 16 is just arbitrarily chosen, and depending 
 on application, you can increase that number to 32, 48, etc. without problem.
@@ -128,7 +128,7 @@ void loop()
 
 ## DONE
 
-For current version v1.0.2
+For current version v1.0.0
 
 1. Basic 16 ISR-based servo controllers using 1 hardware timer for ESP8266.
 
