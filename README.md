@@ -1,10 +1,10 @@
-# ESP8266 TimerInterrupt Library
+# ESP8266_ISR_Servo Library
 
-This library enables you to use Interrupt from Hardware Timers on an ESP8266-based board.
+This library enables you to use 1 Hardware Timer on an ESP8266-based board to control up to 16 servo motors.
 
-Why do we need this Hardware Timer Interrupt?
+Why do we need this ISR-based Servo control?
 
-Imagine you have a system with a mission-critical function, measuring water level and control the sump pump or doing something much more important. You normally use a software timer to poll, or even place the function in loop(). But what if another function is blocking the loop() or setup().
+Imagine you have a system with a mission-critical function, controlling a robot arm or doing something much more important. You normally use a software timer to poll, or even place the function in loop(). But what if another function is blocking the loop() or setup().
 
 So your function might not be executed, and the result would be disastrous.
 
@@ -26,10 +26,10 @@ https://www.arduino.cc/reference/en/language/functions/external-interrupts/attac
 2. Typically global variables are used to pass data between an ISR and the main program. To make sure variables shared between an ISR and the main program are updated correctly, declare them as volatile.
 
 ## Installation
-1. Navigate to (https://github.com/khoih-prog/ESP8266TimerInterrupt) page.
-2. Download the latest release `ESP8266TimerInterrupt-master.zip`.
-3. Extract the zip file to `ESP8266TimerInterrupt-master` directory 
-4. Copy whole folder to Arduino libraries' directory such as `.Arduino/libraries/ESP8266TimerInterrupt-master`.
+1. Navigate to (https://github.com/khoih-prog/ESP8266_ISR_Servo) page.
+2. Download the latest release `ESP8266_ISR_Servo-master.zip`.
+3. Extract the zip file to `ESP8266_ISR_Servo-master` directory 
+4. Copy whole folder to Arduino libraries' directory such as `.Arduino/libraries/ESP8266_ISR_Servo-master`.
 
 ## More useful Information
 
@@ -42,15 +42,16 @@ The timer1 counters can be configured to support automatic reload.
 
 ## New from v1.0.2
 
-Now with these new `16 ISR-based timers`, the maximum interval is practically unlimited (limited only by unsigned long miliseconds)
+Now these new `16 ISR-based Servo controllers` just use one ESP8266 Hardware Timer. The number 16 is just arbitrarily chosen, and depending 
+on application, you can increase that number to 32, 48, etc. without problem.
 The accuracy is nearly perfect compared to software timers. The most important feature is they're ISR-based timers
 Therefore, their executions are not blocked by bad-behaving functions / tasks.
 This important feature is absolutely necessary for mission-critical tasks. 
 
-The `ISR_Timer_Complex` example will demonstrate the nearly perfect accuracy compared to software timers by printing the actual 
-elapsed millisecs of each type of timers.
-Being ISR-based timers, their executions are not blocked by bad-behaving functions / tasks, such as connecting to WiFi, Internet
-and Blynk services. You can also have many `(up to 16)` timers to use.
+The `MultipleServos` example, which controls 6 servos independently, will demonstrate the nearly perfect accuracy.
+Being ISR-based servo controllers, their executions are not blocked by bad-behaving functions / tasks, such as connecting to WiFi, Internet
+and Blynk services.
+
 This non-being-blocked important feature is absolutely necessary for mission-critical tasks. 
 You'll see blynkTimer Software is blocked while system is connecting to WiFi / Internet / Blynk, as well as by blocking task 
 in loop(), using delay() function as an example. The elapsed time then is very unaccurate
@@ -64,61 +65,58 @@ in loop(), using delay() function as an example. The elapsed time then is very u
 How to use:
 
 ```
-//These define's must be placed at the beginning before #include "ESP8266TimerInterrupt.h"
-#define TIMER_INTERRUPT_DEBUG      1
+#define TIMER_INTERRUPT_DEBUG       1
+#define ISR_SERVO_DEBUG             1
 
-#include "ESP8266TimerInterrupt.h"
+#include "ESP8266_ISR_Servo.h"
 
-#ifndef LED_BUILTIN
-#define LED_BUILTIN       2         // Pin D4 mapped to pin GPIO2/TXD1 of ESP8266, NodeMCU and WeMoS, control on-board LED
-#endif
+int servoIndex1  = -1;
+int servoIndex2  = -1;
 
-volatile uint32_t lastMillis = 0;
-
-void ICACHE_RAM_ATTR TimerHandler(void)
-{
-  static bool toggle = false;
-  static bool started = false;
-
-  if (!started)
-  {
-    started = true;
-    pinMode(LED_BUILTIN, OUTPUT);
-  }
-
-  #if (TIMER_INTERRUPT_DEBUG > 0)
-  if (lastMillis != 0)
-    Serial.println("Delta ms = " + String(millis() - lastMillis));
-  lastMillis = millis();
-  #endif
-  
-  //timer interrupt toggles pin LED_BUILTIN
-  digitalWrite(LED_BUILTIN, toggle);
-  toggle = !toggle;
-}
-
-#define TIMER_INTERVAL_MS        1000 
-
-// Init ESP8266 timer 0
-ESP8266Timer ITimer;
-
-
-void setup()
+void setup() 
 {
   Serial.begin(115200);
   Serial.println("\nStarting");
-  
-  // Interval in microsecs
-  if (ITimer.attachInterruptInterval(TIMER_INTERVAL_MS * 1000, TimerHandler))
-    Serial.println("Starting  ITimer OK, millis() = " + String(millis()));
-  else
-    Serial.println("Can't set ITimer correctly. Select another freq. or interval");
 
+  servoIndex1 = ISR_Servo.setupServo(D8);
+  servoIndex2 = ISR_Servo.setupServo(D7);
+  
+  if (servoIndex1 != -1)
+    Serial.println("Setup Servo1 OK");
+  else
+    Serial.println("Setup Servo1 failed");
+
+  if (servoIndex2 != -1)
+    Serial.println("Setup Servo2 OK");
+  else
+    Serial.println("Setup Servo2 failed");
 }
 
-void loop()
+void loop() 
 {
-  
+  int position;
+
+  if ( ( servoIndex1 != -1) && ( servoIndex2 != -1) )
+  {
+    for (position = 0; position <= 180; position++) 
+    { 
+      // goes from 0 degrees to 180 degrees
+      // in steps of 1 degree
+      ISR_Servo.setPosition(servoIndex1, position);
+      ISR_Servo.setPosition(servoIndex2, 180 - position);
+      // waits 15ms for the servo to reach the position
+      delay(50  /*15*/);
+    }
+    
+    for (position = 180; position >= 0; position--) 
+    { 
+      // goes from 180 degrees to 0 degrees
+      ISR_Servo.setPosition(servoIndex1, position);
+      ISR_Servo.setPosition(servoIndex2, 180 - position);
+      // waits 15ms for the servo to reach the position
+      delay(50  /*15*/);                                  
+    }
+  }
 }
 
 ```
@@ -132,10 +130,7 @@ void loop()
 
 For current version v1.0.2
 
-1. Basic hardware timers for ESP8266.
-2. Fix compatibility issue causing compiler error while using Arduino IDEs before 1.8.10 and ESP8266 cores 2.5.2 and before
-3. More hardware-initiated software-enabled timers
-4. Longer time interval
+1. Basic 16 ISR-based servo controllers using 1 hardware timer for ESP8266.
 
 
 ## Contributing
