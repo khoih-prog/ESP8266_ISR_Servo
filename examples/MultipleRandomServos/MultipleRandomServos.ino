@@ -1,5 +1,5 @@
 /****************************************************************************************************************************
- * examples/MultipleServos.ino
+ * examples/MultipleRandomServos.ino
  * For ESP8266 boards
  * Written by Khoi Hoang
  * 
@@ -74,7 +74,7 @@
 *****************************************************************************************************************************/
 
 #define TIMER_INTERRUPT_DEBUG       1
-#define ISR_SERVO_DEBUG             1
+#define ISR_SERVO_DEBUG             0
 
 #include "ESP8266_ISR_Servo.h"
 
@@ -114,8 +114,64 @@ void setup()
 void loop() 
 {
   int position;      // position in degrees
-  
-  for (position = 0; position <= 180; position += 5) 
+
+  position = 0;
+  Serial.println("Servos @ 0 degree");
+  for (int index = 0; index < NUM_SERVOS; index++)
+  {
+    ISR_Servo.setPosition(ISR_servo[index].servoIndex, position );
+  }
+  // waits 1s for the servo to reach the position
+  delay(5000);
+
+  position = 90;
+  Serial.println("Servos @ 90 degree");
+  for (int index = 0; index < NUM_SERVOS; index++)
+  {
+    ISR_Servo.setPosition(ISR_servo[index].servoIndex, position );
+  }
+  // waits 1s for the servo to reach the position
+  delay(5000);
+
+  position = 180;
+  Serial.println("Servos @ 180 degree");
+  for (int index = 0; index < NUM_SERVOS; index++)
+  {
+    ISR_Servo.setPosition(ISR_servo[index].servoIndex, position );
+  }
+  // waits 1s for the servo to reach the position
+  delay(5000);
+
+  Serial.println("Servos sweeps from 0-180 degress");
+  for (position = 0; position <= 180; position += 1) 
+  { 
+    // goes from 0 degrees to 180 degrees
+    // in steps of 1 degree
+    for (int index = 0; index < NUM_SERVOS; index++)
+    {
+      ISR_Servo.setPosition(ISR_servo[index].servoIndex, position );
+    }
+    // waits 1s for the servo to reach the position
+    delay(50);
+  }
+  delay(5000);
+
+  Serial.println("Servos sweeps from 180-0 degress");  
+  for (position = 180; position >= 0; position -= 1) 
+  { 
+    // goes from 0 degrees to 180 degrees
+    // in steps of 1 degree
+    for (int index = 0; index < NUM_SERVOS; index++)
+    {
+      ISR_Servo.setPosition(ISR_servo[index].servoIndex, position );
+    }
+    // waits 1s for the servo to reach the position
+    delay(50);
+  }
+  delay(5000);
+
+  Serial.println("Servos, index depending, be somewhere from 0-180 degress");
+  for (position = 0; position <= 180; position += 1) 
   { 
     // goes from 0 degrees to 180 degrees
     // in steps of 1 degree
@@ -124,20 +180,22 @@ void loop()
       ISR_Servo.setPosition(ISR_servo[index].servoIndex, (position + index * (180 / NUM_SERVOS)) % 180 );
     }
     // waits 1s for the servo to reach the position
-    delay(1000);
+    delay(50);
   }
-  
-  for (position = 180; position >= 0; position -= 5) 
+  delay(5000);
+
+  Serial.println("Servos, index depending, be somewhere from 180-0 degress");
+  for (position = 180; position >= 0; position -= 1) 
   { 
     // goes from 0 degrees to 180 degrees
     // in steps of 1 degree
     for (int index = 0; index < NUM_SERVOS; index++)
     {
-      ISR_Servo.setPosition(ISR_servo[index].servoIndex, (position + index * (180 / NUM_SERVOS)) % 180);
+      ISR_Servo.setPosition(ISR_servo[index].servoIndex, (position + index * (180 / NUM_SERVOS)) % 180 );
     }
     // waits 1s for the servo to reach the position
-    delay(1000);
+    delay(50);
   }
-  
   delay(5000);
+  
 }

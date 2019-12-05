@@ -78,6 +78,9 @@
 
 #include "ESP8266_ISR_Servo.h"
 
+// Published values for SG90 servos; adjust if needed
+#define MIN_MICROS      800  //544
+#define MAX_MICROS      2450
 
 int servoIndex1  = -1;
 int servoIndex2  = -1;
@@ -87,8 +90,8 @@ void setup()
   Serial.begin(115200);
   Serial.println("\nStarting");
 
-  servoIndex1 = ISR_Servo.setupServo(D8);
-  servoIndex2 = ISR_Servo.setupServo(D7);
+  servoIndex1 = ISR_Servo.setupServo(D8, MIN_MICROS, MAX_MICROS);
+  servoIndex2 = ISR_Servo.setupServo(D7, MIN_MICROS, MAX_MICROS);
   
   if (servoIndex1 != -1)
     Serial.println("Setup Servo1 OK");
