@@ -5,7 +5,7 @@
  * 
  * Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_ISR_Servo
  * Licensed under MIT license
- * Version: 1.0.0
+ * Version: 1.0.1
  *
  * The ESP8266 timers are badly designed, using only 23-bit counter along with maximum 256 prescaler. They're only better than UNO / Mega.
  * The ESP8266 has two hardware timers, but timer0 has been used for WiFi and it's not advisable to use. Only timer1 is available.
@@ -27,13 +27,14 @@
  * Version Modified By   Date      Comments
  * ------- -----------  ---------- -----------
  *  1.0.0   K Hoang      04/12/2019 Initial coding
-*****************************************************************************************************************************/
+ *  1.0.1   K Hoang      05/12/2019 Add more features getPosition and getPulseWidth. Optimize.
+ *****************************************************************************************************************************/
 
 #include "ESP8266_ISR_Servo.h"
 #include <string.h>
 
 #ifndef ISR_SERVO_DEBUG
-#define ISR_SERVO_DEBUG      1
+#define ISR_SERVO_DEBUG      0
 #endif
 
 //extern void ICACHE_RAM_ATTR ESP8266_ISR_Servo_Handler(void);
@@ -175,7 +176,7 @@ int ESP8266_ISR_Servo::setupServo(uint8_t pin, int min, int max)
   return servoIndex;
 }
 
-bool ESP8266_ISR_Servo::setPosition(unsigned servoIndex, unsigned long position) 
+bool ESP8266_ISR_Servo::setPosition(unsigned servoIndex, int position) 
 {
   if (servoIndex >= MAX_SERVOS) 
     return false;
@@ -197,6 +198,79 @@ bool ESP8266_ISR_Servo::setPosition(unsigned servoIndex, unsigned long position)
   return false;
 }
 
+// returns last position in degrees if success, or -1 on wrong servoIndex
+int ESP8266_ISR_Servo::getPosition(unsigned servoIndex)
+{
+  if (servoIndex >= MAX_SERVOS) 
+    return -1;
+
+  // Updates interval of existing specified servo
+  if ( servo[servoIndex].enabled && (servo[servoIndex].pin <= ESP8266_MAX_PIN) ) 
+  {         
+    #if (ISR_SERVO_DEBUG > 0)
+    Serial.println("Idx = " + String(servoIndex) + ", cnt = " + String(servo[servoIndex].count) + ", pos = " + String(servo[servoIndex].position));
+    #endif
+
+    return (servo[servoIndex].position);
+  }
+
+  // return 0 for non-used numServo or bad pin
+  return -1;
+} 
+    
+    
+// setPulseWidth will set servo PWM Pulse Width in microseconds, correcponding to certain position in degrees
+// by using PWM, turn HIGH 'pulseWidth' microseconds within REFRESH_INTERVAL (20000us)
+// min and max for each individual servo are enforced
+// returns true on success or -1 on wrong servoIndex
+bool ESP8266_ISR_Servo::setPulseWidth(unsigned servoIndex, unsigned int pulseWidth)
+{
+  if (servoIndex >= MAX_SERVOS) 
+    return false;
+
+  // Updates interval of existing specified servo
+  if ( servo[servoIndex].enabled && (servo[servoIndex].pin <= ESP8266_MAX_PIN) ) 
+  {
+    if (pulseWidth < servo[servoIndex].min)
+      pulseWidth = servo[servoIndex].min;
+    else if (pulseWidth > servo[servoIndex].max)
+      pulseWidth = servo[servoIndex].max;
+      
+    servo[servoIndex].count     = pulseWidth / TIMER_INTERVAL_MICRO;
+    servo[servoIndex].position  = map(pulseWidth, servo[servoIndex].min, servo[servoIndex].max, 0, 180);
+
+    #if (ISR_SERVO_DEBUG > 0)
+      Serial.println("Idx = " + String(servoIndex) + ", cnt = " + String(servo[servoIndex].count) + ", pos = " + String(servo[servoIndex].position));
+    #endif
+
+    return true;
+  }
+  
+  // false return for non-used numServo or bad pin
+  return false;
+}
+
+// returns pulseWidth in microsecs (within min/max range) if success, or 0 on wrong servoIndex
+unsigned int ESP8266_ISR_Servo::getPulseWidth(unsigned servoIndex)
+{
+  if (servoIndex >= MAX_SERVOS) 
+    return 0;
+
+  // Updates interval of existing specified servo
+  if ( servo[servoIndex].enabled && (servo[servoIndex].pin <= ESP8266_MAX_PIN) ) 
+  {         
+    #if (ISR_SERVO_DEBUG > 0)
+    Serial.println("Idx = " + String(servoIndex) + ", cnt = " + String(servo[servoIndex].count) + ", pos = " + String(servo[servoIndex].position));
+    #endif
+
+    return (servo[servoIndex].count * TIMER_INTERVAL_MICRO );
+  }
+
+  // return 0 for non-used numServo or bad pin
+  return 0;
+}      
+
+    
 void ESP8266_ISR_Servo::deleteServo(unsigned servoIndex) 
 {
   if ( (numServos == 0) || (servoIndex >= MAX_SERVOS) )

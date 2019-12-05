@@ -10,6 +10,9 @@ init  KEYWORD2
 run KEYWORD2
 setupServo  KEYWORD2
 setPosition  KEYWORD2
+getPosition  KEYWORD2
+setPulseWidth  KEYWORD2
+getPulseWidth  KEYWORD2
 deleteServo  KEYWORD2
 isEnabled KEYWORD2
 enable  KEYWORD2

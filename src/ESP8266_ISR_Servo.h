@@ -5,7 +5,7 @@
  * 
  * Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_ISR_Servo
  * Licensed under MIT license
- * Version: 1.0.0
+ * Version: 1.0.1
  *
  * The ESP8266 timers are badly designed, using only 23-bit counter along with maximum 256 prescaler. They're only better than UNO / Mega.
  * The ESP8266 has two hardware timers, but timer0 has been used for WiFi and it's not advisable to use. Only timer1 is available.
@@ -27,7 +27,8 @@
  * Version Modified By   Date      Comments
  * ------- -----------  ---------- -----------
  *  1.0.0   K Hoang      04/12/2019 Initial coding
-*****************************************************************************************************************************/
+ *  1.0.1   K Hoang      05/12/2019 Add more features getPosition and getPulseWidth. Optimize.
+ *****************************************************************************************************************************/
 
 
 #ifndef ESP8266_ISR_SERVO_H
@@ -56,7 +57,7 @@
 #include "ESP8266FastTimerInterrupt.h"
 
 #ifndef ISR_SERVO_DEBUG
-#define ISR_SERVO_DEBUG      1
+#define ISR_SERVO_DEBUG      0
 #endif
 
 //#define ESP8266_ISR_Servo ESP8266ISRServo
@@ -96,8 +97,20 @@ public:
     // setPosition will set servo to position in degrees
     // by using PWM, turn HIGH 'duration' microseconds within REFRESH_INTERVAL (20000us)
     // returns true on success or -1 on wrong servoIndex
-    bool setPosition(unsigned servoIndex, unsigned long position);
+    bool setPosition(unsigned servoIndex, int position);
+    
+    // returns last position in degrees if success, or -1 on wrong servoIndex
+    int getPosition(unsigned servoIndex);   
 
+    // setPulseWidth will set servo PWM Pulse Width in microseconds, correcponding to certain position in degrees
+    // by using PWM, turn HIGH 'pulseWidth' microseconds within REFRESH_INTERVAL (20000us)
+    // min and max for each individual servo are enforced
+    // returns true on success or -1 on wrong servoIndex
+    bool setPulseWidth(unsigned servoIndex, unsigned int pulseWidth);
+    
+    // returns pulseWidth in microsecs (within min/max range) if success, or 0 on wrong servoIndex
+    unsigned int getPulseWidth(unsigned servoIndex);
+       
     // destroy the specified servo
     void deleteServo(unsigned servoIndex);
 
@@ -137,7 +150,7 @@ private:
     {
       uint8_t       pin;                  // pin servo connected to
       unsigned long count;                // In microsecs
-      unsigned long position;             // In degrees      
+      int           position;             // In degrees      
       bool          enabled;              // true if enabled
       int16_t       min;
       int16_t       max;

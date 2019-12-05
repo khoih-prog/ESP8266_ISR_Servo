@@ -120,8 +120,10 @@ void loop()
   for (int index = 0; index < NUM_SERVOS; index++)
   {
     ISR_Servo.setPosition(ISR_servo[index].servoIndex, position );
-  }
-  // waits 1s for the servo to reach the position
+    Serial.print("Servos idx = " + String(index) + ", act. pos. (deg) = " + String(ISR_Servo.getPosition(ISR_servo[index].servoIndex)) );
+    Serial.println(", pulseWidth (us) = " + String(ISR_Servo.getPulseWidth(ISR_servo[index].servoIndex)) );
+ }
+  // waits 5s between test
   delay(5000);
 
   position = 90;
@@ -129,8 +131,10 @@ void loop()
   for (int index = 0; index < NUM_SERVOS; index++)
   {
     ISR_Servo.setPosition(ISR_servo[index].servoIndex, position );
+    Serial.print("Servos idx = " + String(index) + ", act. pos. (deg) = " + String(ISR_Servo.getPosition(ISR_servo[index].servoIndex)) );
+    Serial.println(", pulseWidth (us) = " + String(ISR_Servo.getPulseWidth(ISR_servo[index].servoIndex)) );
   }
-  // waits 1s for the servo to reach the position
+  // waits 5s between test
   delay(5000);
 
   position = 180;
@@ -138,10 +142,12 @@ void loop()
   for (int index = 0; index < NUM_SERVOS; index++)
   {
     ISR_Servo.setPosition(ISR_servo[index].servoIndex, position );
+    Serial.print("Servos idx = " + String(index) + ", act. pos. (deg) = " + String(ISR_Servo.getPosition(ISR_servo[index].servoIndex)) );
+    Serial.println(", pulseWidth (us) = " + String(ISR_Servo.getPulseWidth(ISR_servo[index].servoIndex)) );
   }
-  // waits 1s for the servo to reach the position
+  // waits 5s between test
   delay(5000);
-
+  
   Serial.println("Servos sweeps from 0-180 degress");
   for (position = 0; position <= 180; position += 1) 
   { 
@@ -151,9 +157,10 @@ void loop()
     {
       ISR_Servo.setPosition(ISR_servo[index].servoIndex, position );
     }
-    // waits 1s for the servo to reach the position
+    // waits 50ms for the servo to reach the position
     delay(50);
   }
+  // waits 5s between test
   delay(5000);
 
   Serial.println("Servos sweeps from 180-0 degress");  
@@ -165,9 +172,10 @@ void loop()
     {
       ISR_Servo.setPosition(ISR_servo[index].servoIndex, position );
     }
-    // waits 1s for the servo to reach the position
+    // waits 50ms for the servo to reach the position
     delay(50);
   }
+  // waits 5s between test
   delay(5000);
 
   Serial.println("Servos, index depending, be somewhere from 0-180 degress");
@@ -179,7 +187,7 @@ void loop()
     {
       ISR_Servo.setPosition(ISR_servo[index].servoIndex, (position + index * (180 / NUM_SERVOS)) % 180 );
     }
-    // waits 1s for the servo to reach the position
+    // waits 50ms for the servo to reach the position
     delay(50);
   }
   delay(5000);
@@ -193,9 +201,10 @@ void loop()
     {
       ISR_Servo.setPosition(ISR_servo[index].servoIndex, (position + index * (180 / NUM_SERVOS)) % 180 );
     }
-    // waits 1s for the servo to reach the position
+    // waits 50ms for the servo to reach the position
     delay(50);
   }
+  // waits 5s between test
   delay(5000);
   
 }

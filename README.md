@@ -40,7 +40,11 @@ Using 256 prescaler, maximum timer1 interval is only 26.843542 seconds !!!
 
 The timer1 counters can be configured to support automatic reload.
 
-## New from v1.0.0
+## New from v1.0.1
+
+1. Add functions `getPosition()` and `getPulseWidth()`
+2. Optimize the code
+3. Add more complicated example
 
 Now these new `16 ISR-based Servo controllers` just use one ESP8266 Hardware Timer. The number 16 is just arbitrarily chosen, and depending 
 on application, you can increase that number to 32, 48, etc. without problem.
@@ -70,6 +74,10 @@ How to use:
 
 #include "ESP8266_ISR_Servo.h"
 
+// Published values for SG90 servos; adjust if needed
+#define MIN_MICROS      800  //544
+#define MAX_MICROS      2450
+
 int servoIndex1  = -1;
 int servoIndex2  = -1;
 
@@ -78,8 +86,8 @@ void setup()
   Serial.begin(115200);
   Serial.println("\nStarting");
 
-  servoIndex1 = ISR_Servo.setupServo(D8);
-  servoIndex2 = ISR_Servo.setupServo(D7);
+  servoIndex1 = ISR_Servo.setupServo(D8, MIN_MICROS, MAX_MICROS);
+  servoIndex2 = ISR_Servo.setupServo(D7, MIN_MICROS, MAX_MICROS);
   
   if (servoIndex1 != -1)
     Serial.println("Setup Servo1 OK");
@@ -104,7 +112,7 @@ void loop()
       // in steps of 1 degree
       ISR_Servo.setPosition(servoIndex1, position);
       ISR_Servo.setPosition(servoIndex2, 180 - position);
-      // waits 15ms for the servo to reach the position
+      // waits 50ms for the servo to reach the position
       delay(50  /*15*/);
     }
     
@@ -113,8 +121,8 @@ void loop()
       // goes from 180 degrees to 0 degrees
       ISR_Servo.setPosition(servoIndex1, position);
       ISR_Servo.setPosition(servoIndex2, 180 - position);
-      // waits 15ms for the servo to reach the position
-      delay(50  /*15*/);                                  
+      // waits 50ms for the servo to reach the position
+      delay(50  /*15*/);
     }
   }
 }
@@ -128,7 +136,7 @@ void loop()
 
 ## DONE
 
-For current version v1.0.0
+For current version v1.0.1
 
 1. Basic 16 ISR-based servo controllers using 1 hardware timer for ESP8266.
 
