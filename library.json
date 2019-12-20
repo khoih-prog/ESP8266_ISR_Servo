@@ -8,8 +8,6 @@
     "url": "//https://github.com/khoih-prog/ESP8266_ISR_Servo"
   },
   "frameworks": "arduino",
-  "platforms":
-  [
-    "esp8266"
-  ]
+  "platforms":  "esp8266",
+  "version": "1.0.2"  
 }

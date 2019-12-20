@@ -5,7 +5,7 @@
  * 
  * Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_ISR_Servo
  * Licensed under MIT license
- * Version: 1.0.1
+ * Version: 1.0.2
  *
  * The ESP8266 timers are badly designed, using only 23-bit counter along with maximum 256 prescaler. They're only better than UNO / Mega.
  * The ESP8266 has two hardware timers, but timer0 has been used for WiFi and it's not advisable to use. Only timer1 is available.
@@ -28,6 +28,7 @@
  * ------- -----------  ---------- -----------
  *  1.0.0   K Hoang      04/12/2019 Initial coding
  *  1.0.1   K Hoang      05/12/2019 Add more features getPosition and getPulseWidth. Optimize.
+ *  1.0.2   K Hoang      20/12/2019 Add more Blynk examples.Change example names to avoid duplication.  
  *****************************************************************************************************************************/
 
 
