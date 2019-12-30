@@ -1,4 +1,6 @@
-# ESP8266_ISR_Servo Library
+## ESP8266_ISR_Servo Library
+
+[![arduino-library-badge](https://www.ardu-badge.com/badge/ESP8266_ISR_Servo.svg?)](https://www.ardu-badge.com/ESP8266_ISR_Servo)
 
 This library enables you to use `1 Hardware Timer` on an ESP8266-based board to control up to `16 independent servo motors`.
 
@@ -25,7 +27,7 @@ https://www.arduino.cc/reference/en/language/functions/external-interrupts/attac
 
 2. Typically global variables are used to pass data between an ISR and the main program. To make sure variables shared between an ISR and the main program are updated correctly, declare them as `volatile`.
 
-## Installation
+### Installation
 
 It's better to use `Arduino Library Manager` to install this library.
 
@@ -36,7 +38,7 @@ Otherwise, you can install it using the following steps:
 3. Extract the zip file to `ESP8266_ISR_Servo-master` directory 
 4. Copy whole folder to Arduino libraries' directory such as `.Arduino/libraries/ESP8266_ISR_Servo-master`.
 
-## More useful Information
+### More useful Information
 
 The ESP8266 timers are badly designed, using only 23-bit counter along with maximum 256 prescaler. They're only better than UNO / Mega.
 The ESP8266 has two hardware timers, but timer0 has been used for WiFi and it's not advisable to use. Only timer1 is available.
@@ -45,7 +47,7 @@ Using 256 prescaler, maximum timer1 interval is only 26.843542 seconds !!!
 
 The timer1 counters can be configured to support automatic reload.
 
-## New from v1.0.1
+### New from v1.0.1
 
 1. Add functions `getPosition()` and `getPulseWidth()`
 2. Optimize the code
@@ -65,11 +67,11 @@ This non-being-blocked important feature is absolutely necessary for mission-cri
 You'll see blynkTimer Software is blocked while system is connecting to WiFi / Internet / Blynk, as well as by blocking task 
 in loop(), using delay() function as an example. The elapsed time then is very unaccurate
 
-## Supported Boards
+### Supported Boards
 
 - ESP8266
 
-## Usage
+### Usage
 
 How to use:
 
@@ -133,13 +135,13 @@ void loop()
 }
 
 ```
-## TO DO
+### TO DO
 
 1. Search for bug and improvement.
 2. Similar features for Arduino (UNO, Mega, etc...) and ESP32 
 
 
-## DONE
+### DONE
 
 #### For current version v1.0.2
 
@@ -150,12 +152,12 @@ void loop()
 1. Basic 16 ISR-based servo controllers using 1 hardware timer for ESP8266.
 
 
-## Contributing
+### Contributing
 If you want to contribute to this project:
 - Report bugs and errors
 - Ask for enhancements
 - Create issues and pull requests
 - Tell other people about this library
 
-## Copyright
+### Copyright
 Copyright 2019- Khoi Hoang
