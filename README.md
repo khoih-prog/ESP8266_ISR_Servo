@@ -1,6 +1,11 @@
 ## ESP8266_ISR_Servo Library
 
 [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP8266_ISR_Servo.svg?)](https://www.ardu-badge.com/ESP8266_ISR_Servo)
+[![GitHub release](https://img.shields.io/github/release/khoih-prog/ESP8266_ISR_Servo.svg)](https://github.com/khoih-prog/ESP8266_ISR_Servo/releases)
+[![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/khoih-prog/ESP8266_ISR_Servo/blob/master/LICENSE)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#Contributing)
+[![GitHub issues](https://img.shields.io/github/issues/khoih-prog/ESP8266_ISR_Servo.svg)](http://github.com/khoih-prog/ESP8266_ISR_Servo/issues)
+
 
 This library enables you to use `1 Hardware Timer` on an ESP8266-based board to control up to `16 independent servo motors`.
 
