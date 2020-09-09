@@ -12,7 +12,7 @@
 
 ### Version v1.0.2
 
-1. Add example using [Blynk] (http://docs.blynk.cc/) to control servos. 
+1. Add example using [Blynk](http://docs.blynk.cc/) to control servos. 
 2. Change example names to avoid duplication.
 
 #### Version v1.0.1
@@ -105,15 +105,14 @@ The timer1 counters can be configured to support automatic reload.
 2. Optimize the code
 3. Add more complicated example
 
-Now these new `16 ISR-based Servo controllers` just use one ESP8266 Hardware Timer. The number 16 is just arbitrarily chosen, and depending 
-on application, you can increase that number to 32, 48, etc. without problem.
+Now these new `16 ISR-based Servo controllers` just use one ESP8266 Hardware Timer. The number 16 is just arbitrarily chosen, and depending on application, you can increase that number to 32, 48, etc. without problem.
+
 The accuracy is nearly perfect compared to software timers. The most important feature is they're ISR-based timers
-Therefore, their executions are not blocked by bad-behaving functions / tasks.
-This important feature is absolutely necessary for mission-critical tasks. 
+
+Therefore, their executions are not blocked by bad-behaving functions / tasks. This important feature is absolutely necessary for mission-critical tasks. 
 
 The `MultipleServos` example, which controls 6 servos independently, will demonstrate the nearly perfect accuracy.
-Being ISR-based servo controllers, their executions are not blocked by bad-behaving functions / tasks, such as connecting to WiFi, Internet
-and Blynk services.
+Being ISR-based servo controllers, their executions are not blocked by bad-behaving functions / tasks, such as connecting to WiFi, Internet and Blynk services.
 
 This non-being-blocked important feature is absolutely necessary for mission-critical tasks. 
 You'll see blynkTimer Software is blocked while system is connecting to WiFi / Internet / Blynk, as well as by blocking task 
@@ -207,7 +206,7 @@ void loop()
  
 ---
 
-### Example [Argument_Complex](examples/Argument_Complex)
+### Example [ESP8266_BlynkServoControl](examples/ESP8266_BlynkServoControl)
 
 ```cpp
 #ifndef ESP8266
@@ -386,7 +385,7 @@ void loop()
 
 ### Version v1.0.2
 
-1. Add example using [Blynk] (http://docs.blynk.cc/) to control servos. 
+1. Add example using [Blynk](http://docs.blynk.cc/) to control servos. 
 2. Change example names to avoid duplication.
 
 #### Version v1.0.1
