@@ -12,7 +12,7 @@
 
 ### Version v1.0.2
 
-1. Add example using [Blynk](http://docs.blynk.cc/) to control servos. 
+1. Add example using [**Blynk**](http://docs.blynk.cc/) to control servos. 
 2. Change example names to avoid duplication.
 
 #### Version v1.0.1
@@ -55,8 +55,8 @@ The catch is your function is now part of an **ISR (Interrupt Service Routine)**
 
 ## Prerequisite
 
-1. [`Arduino IDE 1.8.12+` for Arduino](https://www.arduino.cc/en/Main/Software)
-2. [`ESP8266 core 2.7.3+` for Arduino](https://github.com/esp8266/Arduino#installing-with-boards-manager) for ESP8266 boards.
+1. [`Arduino IDE 1.8.13+`](https://www.arduino.cc/en/Main/Software)
+2. [`ESP8266 core 2.7.4+`](https://github.com/esp8266/Arduino#installing-with-boards-manager) for ESP8266 boards.
 
 ---
 
@@ -83,6 +83,7 @@ Another way to install is to:
 3. Install **ESP8266_ISR_Servo** library by using [Library Manager](https://docs.platformio.org/en/latest/librarymanager/). Search for ESP8266_ISR_Servo in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
 4. Use included [platformio.ini](platformio/platformio.ini) file from examples to ensure that all dependent libraries will installed automatically. Please visit documentation for the other options and examples at [Project Configuration File](https://docs.platformio.org/page/projectconf.html)
 
+---
 ---
 
 ## More useful Information
@@ -366,6 +367,7 @@ void loop()
 ```
 
 ---
+---
 
 
 ## TO DO
@@ -407,6 +409,12 @@ If you want to contribute to this project:
 - Ask for enhancements
 - Create issues and pull requests
 - Tell other people about this library
+
+---
+
+### License
+
+- The library is licensed under [MIT](https://github.com/khoih-prog/ESP8266_ISR_Servo/blob/master/LICENSE)
 
 ---
 

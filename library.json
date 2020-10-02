@@ -1,13 +1,28 @@
 {
   "name": "ESP8266_ISR_Servo",
-  "keywords": "timer,interrupt,hardware,servo",
+  "version": "1.0.2",
+  "keywords": "timer,interrupt,hardware,servo,ESP8266,mission-critical,precise,non-blocking",
   "description": "This library enables you to use 1 Hardware Timer on an ESP8266-based board to control up to 16 or more servo motors.",
+  "authors":
+  {
+    "name":  "Khoi Hoang",
+    "url":   "https://github.com/khoih-prog",
+    "maintainer": true
+  },
   "repository":
   {
     "type": "git",
     "url": "//https://github.com/khoih-prog/ESP8266_ISR_Servo"
   },
+  "homepage": "https://github.com/khoih-prog",
+  "export": {
+    "exclude": [
+      "linux",
+      "extras",
+      "tests"
+    ]
+  },  
   "frameworks": "arduino",
   "platforms":  "esp8266",
-  "version": "1.0.2"  
+  "examples": "examples/*/*/*.ino" 
 }
