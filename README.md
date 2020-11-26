@@ -53,7 +53,7 @@ The catch is your function is now part of an **ISR (Interrupt Service Routine)**
 ---
 ---
 
-## Prerequisite
+## Prerequisites
 
 1. [`Arduino IDE 1.8.13+`](https://www.arduino.cc/en/Main/Software)
 2. [`ESP8266 core 2.7.4+`](https://github.com/esp8266/Arduino#installing-with-boards-manager) for ESP8266 boards.
@@ -80,7 +80,7 @@ Another way to install is to:
 
 1. Install [VS Code](https://code.visualstudio.com/)
 2. Install [PlatformIO](https://platformio.org/platformio-ide)
-3. Install **ESP8266_ISR_Servo** library by using [Library Manager](https://docs.platformio.org/en/latest/librarymanager/). Search for ESP8266_ISR_Servo in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
+3. Install [**ESP8266_ISR_Servo** library](https://platformio.org/lib/show/6920/ESP8266_ISR_Servo) by using [Library Manager](https://platformio.org/lib/show/6920/ESP8266_ISR_Servo/installation). Search for **ESP8266_ISR_Servo** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
 4. Use included [platformio.ini](platformio/platformio.ini) file from examples to ensure that all dependent libraries will installed automatically. Please visit documentation for the other options and examples at [Project Configuration File](https://docs.platformio.org/page/projectconf.html)
 
 ---
