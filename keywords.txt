@@ -1,6 +1,15 @@
+#######################################
+# Data types (KEYWORD1)
+#######################################
+
 ESP8266_ISR_Servo KEYWORD1
 ESP8266FastTimerInterrupt	KEYWORD1
 ESP8266FastTimer	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
 setFrequency	KEYWORD2
 attachInterruptInterval	KEYWORD2
 detachInterrupt	KEYWORD2
@@ -23,3 +32,7 @@ toggle  KEYWORD2
 getNumServos  KEYWORD2
 getNumAvailableServos KEYWORD2
 ESP8266_ISR_Servo_Handler KEYWORD2
+
+#######################################
+# Literals (LITERAL1)
+#######################################

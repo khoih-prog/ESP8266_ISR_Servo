@@ -1,34 +1,79 @@
 /****************************************************************************************************************************
-   ESP8266FastTimerInterrupt.h
-   For ESP8266 boards
-   Written by Khoi Hoang
+  ESP8266FastTimerInterrupt.h
+  For ESP8266 boards
+  Written by Khoi Hoang
 
-   Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_ISR_Servo
-   Licensed under MIT license
-   Version: 1.0.2
+  Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_ISR_Servo
+  Licensed under MIT license
 
-   The ESP8266 timers are badly designed, using only 23-bit counter along with maximum 256 prescaler. They're only better than UNO / Mega.
-   The ESP8266 has two hardware timers, but timer0 has been used for WiFi and it's not advisable to use. Only timer1 is available.
-   The timer1's 23-bit counter terribly can count only up to 8,388,607. So the timer1 maximum interval is very short.
-   Using 256 prescaler, maximum timer1 interval is only 26.843542 seconds !!!
+  The ESP8266 timers are badly designed, using only 23-bit counter along with maximum 256 prescaler. They're only better than UNO / Mega.
+  The ESP8266 has two hardware timers, but timer0 has been used for WiFi and it's not advisable to use. Only timer1 is available.
+  The timer1's 23-bit counter terribly can count only up to 8,388,607. So the timer1 maximum interval is very short.
+  Using 256 prescaler, maximum timer1 interval is only 26.843542 seconds !!!
 
-   Version Modified By   Date      Comments
-   ------- -----------  ---------- -----------
-    1.0.0   K Hoang      04/12/2019 Initial coding
-    1.0.1   K Hoang      05/12/2019 Add more features getPosition and getPulseWidth. Optimize.
-    1.0.2   K Hoang      20/12/2019 Add more Blynk examples.Change example names to avoid duplication.
+  Now with these new 16 ISR-based timers, the maximum interval is practically unlimited (limited only by unsigned long miliseconds)
+  The accuracy is nearly perfect compared to software timers. The most important feature is they're ISR-based timers
+  Therefore, their executions are not blocked by bad-behaving functions / tasks.
+  This important feature is absolutely necessary for mission-critical tasks.
+
+  Loosely based on SimpleTimer - A timer library for Arduino.
+  Author: mromani@ottotecnica.com
+  Copyright (c) 2010 OTTOTECNICA Italy
+
+  Based on BlynkTimer.h
+  Author: Volodymyr Shymanskyy
+
+  Version: 1.1.0
+
+  The ESP8266 timers are badly designed, using only 23-bit counter along with maximum 256 prescaler. They're only better than UNO / Mega.
+  The ESP8266 has two hardware timers, but timer0 has been used for WiFi and it's not advisable to use. Only timer1 is available.
+  The timer1's 23-bit counter terribly can count only up to 8,388,607. So the timer1 maximum interval is very short.
+  Using 256 prescaler, maximum timer1 interval is only 26.843542 seconds !!!
+
+  Version Modified By   Date      Comments
+  ------- -----------  ---------- -----------
+  1.0.0   K Hoang      04/12/2019 Initial coding
+  1.0.1   K Hoang      05/12/2019 Add more features getPosition and getPulseWidth. Optimize.
+  1.0.2   K Hoang      20/12/2019 Add more Blynk examples.Change example names to avoid duplication.
+  1.1.0   K Hoang      03/01/2021 Fix bug. Add TOC and Version String.
  *****************************************************************************************************************************/
+
+#pragma once
+
+#ifndef ESP8266
+  #error This code is designed to run on ESP8266 platform, not Arduino nor ESP32! Please check your Tools->Board setting.
+#endif
 
 #ifndef ESP8266FastTimerInterrupt_h
 #define ESP8266FastTimerInterrupt_h
 
 #ifndef TIMER_INTERRUPT_DEBUG
-#define TIMER_INTERRUPT_DEBUG      1
+  #define TIMER_INTERRUPT_DEBUG         1
 #endif
 
-#ifndef ESP8266
-#error This code is designed to run on ESP8266 platform, not Arduino nor ESP32! Please check your Tools->Board setting.
+#ifndef ISR_SERVO_DEBUG
+  #define ISR_SERVO_DEBUG               1
 #endif
+
+//////////////////////////////////////////
+
+#if !defined(ISR_SERVO_DEBUG_OUTPUT)
+  #define ISR_SERVO_DEBUG_OUTPUT    Serial
+#endif
+
+#define ISR_SERVO_LOGERROR(x)         if(ISR_SERVO_DEBUG>0) { ISR_SERVO_DEBUG_OUTPUT.print("[ISR_SERVO] "); ISR_SERVO_DEBUG_OUTPUT.println(x); }
+#define ISR_SERVO_LOGERROR0(x)        if(ISR_SERVO_DEBUG>0) { ISR_SERVO_DEBUG_OUTPUT.print(x); }
+#define ISR_SERVO_LOGERROR1(x,y)      if(ISR_SERVO_DEBUG>0) { ISR_SERVO_DEBUG_OUTPUT.print("[ISR_SERVO] "); ISR_SERVO_DEBUG_OUTPUT.print(x); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.println(y); }
+#define ISR_SERVO_LOGERROR2(x,y,z)    if(ISR_SERVO_DEBUG>0) { ISR_SERVO_DEBUG_OUTPUT.print("[ISR_SERVO] "); ISR_SERVO_DEBUG_OUTPUT.print(x); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.print(y); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.println(z); }
+#define ISR_SERVO_LOGERROR3(x,y,z,w)  if(ISR_SERVO_DEBUG>0) { ISR_SERVO_DEBUG_OUTPUT.print("[ISR_SERVO] "); ISR_SERVO_DEBUG_OUTPUT.print(x); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.print(y); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.print(z); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.println(w); }
+
+#define ISR_SERVO_LOGDEBUG(x)         if(ISR_SERVO_DEBUG>1) { ISR_SERVO_DEBUG_OUTPUT.print("[ISR_SERVO] "); ISR_SERVO_DEBUG_OUTPUT.println(x); }
+#define ISR_SERVO_LOGDEBUG0(x)        if(ISR_SERVO_DEBUG>1) { ISR_SERVO_DEBUG_OUTPUT.print(x); }
+#define ISR_SERVO_LOGDEBUG1(x,y)      if(ISR_SERVO_DEBUG>1) { ISR_SERVO_DEBUG_OUTPUT.print("[ISR_SERVO] "); ISR_SERVO_DEBUG_OUTPUT.print(x); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.println(y); }
+#define ISR_SERVO_LOGDEBUG2(x,y,z)    if(ISR_SERVO_DEBUG>1) { ISR_SERVO_DEBUG_OUTPUT.print("[ISR_SERVO] "); ISR_SERVO_DEBUG_OUTPUT.print(x); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.print(y); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.println(z); }
+#define ISR_SERVO_LOGDEBUG3(x,y,z,w)  if(ISR_SERVO_DEBUG>1) { ISR_SERVO_DEBUG_OUTPUT.print("[ISR_SERVO] "); ISR_SERVO_DEBUG_OUTPUT.print(x); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.print(y); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.print(z); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.println(w); }
+//////////////////////////////////////////
+
 
 /* From /arduino-1.8.10/hardware/esp8266com/esp8266/cores/esp8266/esp8266_peri.h
 
@@ -105,9 +150,7 @@ class ESP8266TimerInterrupt
       }
 
       // count up
-#if (TIMER_INTERRUPT_DEBUG > 0)
-      Serial.println("ESP8266TimerInterrupt: _fre = " + String(_frequency) + ", _count = " + String(_timerCount));
-#endif
+      ISR_SERVO_LOGERROR3("ESP8266FastTimerInterrupt: _fre =", _frequency, ", _count =", _timerCount);
 
       // Clock to timer (prescaler) is always 80MHz, even F_CPU is 160 MHz
 

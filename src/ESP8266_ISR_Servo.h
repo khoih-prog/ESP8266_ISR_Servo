@@ -1,77 +1,86 @@
 /****************************************************************************************************************************
    ESP8266_ISR_Servo.h
    For ESP8266 boards
-   Written by Khoi Hoang
+  Written by Khoi Hoang
 
-   Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_ISR_Servo
-   Licensed under MIT license
-   Version: 1.0.2
+  Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_ISR_Servo
+  Licensed under MIT license
 
-   The ESP8266 timers are badly designed, using only 23-bit counter along with maximum 256 prescaler. They're only better than UNO / Mega.
-   The ESP8266 has two hardware timers, but timer0 has been used for WiFi and it's not advisable to use. Only timer1 is available.
-   The timer1's 23-bit counter terribly can count only up to 8,388,607. So the timer1 maximum interval is very short.
-   Using 256 prescaler, maximum timer1 interval is only 26.843542 seconds !!!
+  The ESP8266 timers are badly designed, using only 23-bit counter along with maximum 256 prescaler. They're only better than UNO / Mega.
+  The ESP8266 has two hardware timers, but timer0 has been used for WiFi and it's not advisable to use. Only timer1 is available.
+  The timer1's 23-bit counter terribly can count only up to 8,388,607. So the timer1 maximum interval is very short.
+  Using 256 prescaler, maximum timer1 interval is only 26.843542 seconds !!!
 
-   Now with these new 16 ISR-based timers, the maximum interval is practically unlimited (limited only by unsigned long miliseconds)
-   The accuracy is nearly perfect compared to software timers. The most important feature is they're ISR-based timers
-   Therefore, their executions are not blocked by bad-behaving functions / tasks.
-   This important feature is absolutely necessary for mission-critical tasks.
+  Now with these new 16 ISR-based timers, the maximum interval is practically unlimited (limited only by unsigned long miliseconds)
+  The accuracy is nearly perfect compared to software timers. The most important feature is they're ISR-based timers
+  Therefore, their executions are not blocked by bad-behaving functions / tasks.
+  This important feature is absolutely necessary for mission-critical tasks.
 
-   Loosely based on SimpleTimer - A timer library for Arduino.
-   Author: mromani@ottotecnica.com
-   Copyright (c) 2010 OTTOTECNICA Italy
+  Loosely based on SimpleTimer - A timer library for Arduino.
+  Author: mromani@ottotecnica.com
+  Copyright (c) 2010 OTTOTECNICA Italy
 
-   Based on BlynkTimer.h
-   Author: Volodymyr Shymanskyy
+  Based on BlynkTimer.h
+  Author: Volodymyr Shymanskyy
 
-   Version Modified By   Date      Comments
-   ------- -----------  ---------- -----------
-    1.0.0   K Hoang      04/12/2019 Initial coding
-    1.0.1   K Hoang      05/12/2019 Add more features getPosition and getPulseWidth. Optimize.
-    1.0.2   K Hoang      20/12/2019 Add more Blynk examples.Change example names to avoid duplication.
+  Version: 1.1.0
+
+  The ESP8266 timers are badly designed, using only 23-bit counter along with maximum 256 prescaler. They're only better than UNO / Mega.
+  The ESP8266 has two hardware timers, but timer0 has been used for WiFi and it's not advisable to use. Only timer1 is available.
+  The timer1's 23-bit counter terribly can count only up to 8,388,607. So the timer1 maximum interval is very short.
+  Using 256 prescaler, maximum timer1 interval is only 26.843542 seconds !!!
+
+  Version Modified By   Date      Comments
+  ------- -----------  ---------- -----------
+  1.0.0   K Hoang      04/12/2019 Initial coding
+  1.0.1   K Hoang      05/12/2019 Add more features getPosition and getPulseWidth. Optimize.
+  1.0.2   K Hoang      20/12/2019 Add more Blynk examples.Change example names to avoid duplication.
+  1.1.0   K Hoang      03/01/2021 Fix bug. Add TOC and Version String.
  *****************************************************************************************************************************/
 
+#pragma once
 
 #ifndef ESP8266_ISR_SERVO_H
 #define ESP8266_ISR_SERVO_H
 
+#define ESP8266_ISR_SERVO_VERSION       "ESP8266_ISR_Servo v1.1.0"
+
 #include <stddef.h>
+
 #ifdef ESP8266
-extern "C"
-{
-#include "ets_sys.h"
-#include "os_type.h"
-#include "mem.h"
-}
+  extern "C"
+  {
+    #include "ets_sys.h"
+    #include "os_type.h"
+    #include "mem.h"
+  }
 #else
-#include <inttypes.h>
+  #include <inttypes.h>
 #endif
 
 #if defined(ARDUINO)
-#if ARDUINO >= 100
-#include <Arduino.h>
-#else
-#include <WProgram.h>
-#endif
+  #if ARDUINO >= 100
+    #include <Arduino.h>
+  #else
+    #include <WProgram.h>
+  #endif
 #endif
 
 #include "ESP8266FastTimerInterrupt.h"
 
 #ifndef ISR_SERVO_DEBUG
-#define ISR_SERVO_DEBUG      0
+  #define ISR_SERVO_DEBUG       0
 #endif
 
-//#define ESP8266_ISR_Servo ESP8266ISRServo
-
-#define ESP8266_MAX_PIN       17
-#define ESP8266_WRONG_PIN     255
+#define ESP8266_MAX_PIN         17
+#define ESP8266_WRONG_PIN       255
 
 // From Servo.h - Copyright (c) 2009 Michael Margolis.  All right reserved.
 
-#define MIN_PULSE_WIDTH       544     // the shortest pulse sent to a servo  
-#define MAX_PULSE_WIDTH      2400     // the longest pulse sent to a servo 
-#define DEFAULT_PULSE_WIDTH  1500     // default pulse width when servo is attached
-#define REFRESH_INTERVAL    20000     // minumim time to refresh servos in microseconds 
+#define MIN_PULSE_WIDTH         544       // the shortest pulse sent to a servo  
+#define MAX_PULSE_WIDTH         2400      // the longest pulse sent to a servo 
+#define DEFAULT_PULSE_WIDTH     1500      // default pulse width when servo is attached
+#define REFRESH_INTERVAL        20000     // minumim time to refresh servos in microseconds 
 
 
 class ESP8266_ISR_Servo
@@ -155,8 +164,8 @@ class ESP8266_ISR_Servo
       unsigned long count;                // In microsecs
       int           position;             // In degrees
       bool          enabled;              // true if enabled
-      int16_t       min;
-      int16_t       max;
+      uint16_t      min;
+      uint16_t      max;
     } servo_t;
 
     volatile servo_t servo[MAX_SERVOS];

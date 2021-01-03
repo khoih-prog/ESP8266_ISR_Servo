@@ -14,9 +14,8 @@ If you don't find anything, please [open a new issue](https://github.com/khoih-p
 
 Please ensure to specify the following:
 
-* Arduino IDE version (e.g. 1.8.10) or Platform.io version
-* `ESP8266` Core Version (e.g. ESP8266 core v2.6.3)
-* `ESP8266` Board (e.g. NodeMCU 1.0, WeMos D1 Mini Pro, etc. )
+* Arduino IDE version (e.g. 1.8.13) or Platform.io version
+* `ESP8266` Core Version (e.g. ESP8266 core v2.7.4)
 * Contextual information (e.g. what you were trying to achieve)
 * Simplest possible steps to reproduce
 * Anything that might be relevant in your opinion, such as:
@@ -27,21 +26,20 @@ Please ensure to specify the following:
 ### Example
 
 ```
-Arduino IDE version: 1.8.10
-ESP8266 Core Version 2.6.3
-WeMos D1 Mini Pro
-OS: Ubuntu 16.04 LTS
-Linux Inspiron 4.4.0-170-generic #199-Ubuntu SMP Thu Nov 14 01:45:04 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+Arduino IDE version: 1.8.13
+ESP8266 Core Version 2.7.4
+OS: Ubuntu 20.04 LTS
+Linux Inspiron 5.4.0-54-generic #60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
 
 Context:
-I encountered a crash while trying to control the Servo.
+I encountered a crash while trying to use the Timer Interrupt.
 
 Steps to reproduce:
 1. ...
 2. ...
 3. ...
 4. ...
-
+```
 ### Sending Feature Requests
 
 Feel free to post feature requests. It's helpful if you can explain exactly why the feature would be useful.

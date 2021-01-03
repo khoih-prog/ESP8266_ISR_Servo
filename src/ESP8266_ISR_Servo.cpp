@@ -1,41 +1,48 @@
 /****************************************************************************************************************************
-   ESP8266_ISR_Servo.cpp
-   For ESP8266 boards
-   Written by Khoi Hoang
+  ESP8266_ISR_Servo.cpp
+  For ESP8266 boards
+  Written by Khoi Hoang
 
-   Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_ISR_Servo
-   Licensed under MIT license
-   Version: 1.0.2
+  Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_ISR_Servo
+  Licensed under MIT license
 
-   The ESP8266 timers are badly designed, using only 23-bit counter along with maximum 256 prescaler. They're only better than UNO / Mega.
-   The ESP8266 has two hardware timers, but timer0 has been used for WiFi and it's not advisable to use. Only timer1 is available.
-   The timer1's 23-bit counter terribly can count only up to 8,388,607. So the timer1 maximum interval is very short.
-   Using 256 prescaler, maximum timer1 interval is only 26.843542 seconds !!!
+  The ESP8266 timers are badly designed, using only 23-bit counter along with maximum 256 prescaler. They're only better than UNO / Mega.
+  The ESP8266 has two hardware timers, but timer0 has been used for WiFi and it's not advisable to use. Only timer1 is available.
+  The timer1's 23-bit counter terribly can count only up to 8,388,607. So the timer1 maximum interval is very short.
+  Using 256 prescaler, maximum timer1 interval is only 26.843542 seconds !!!
 
-   Now with these new 16 ISR-based timers, the maximum interval is practically unlimited (limited only by unsigned long miliseconds)
-   The accuracy is nearly perfect compared to software timers. The most important feature is they're ISR-based timers
-   Therefore, their executions are not blocked by bad-behaving functions / tasks.
-   This important feature is absolutely necessary for mission-critical tasks.
+  Now with these new 16 ISR-based timers, the maximum interval is practically unlimited (limited only by unsigned long miliseconds)
+  The accuracy is nearly perfect compared to software timers. The most important feature is they're ISR-based timers
+  Therefore, their executions are not blocked by bad-behaving functions / tasks.
+  This important feature is absolutely necessary for mission-critical tasks.
 
-   Loosely based on SimpleTimer - A timer library for Arduino.
-   Author: mromani@ottotecnica.com
-   Copyright (c) 2010 OTTOTECNICA Italy
+  Loosely based on SimpleTimer - A timer library for Arduino.
+  Author: mromani@ottotecnica.com
+  Copyright (c) 2010 OTTOTECNICA Italy
 
-   Based on BlynkTimer.h
-   Author: Volodymyr Shymanskyy
+  Based on BlynkTimer.h
+  Author: Volodymyr Shymanskyy
 
-   Version Modified By   Date      Comments
-   ------- -----------  ---------- -----------
-    1.0.0   K Hoang      04/12/2019 Initial coding
-    1.0.1   K Hoang      05/12/2019 Add more features getPosition and getPulseWidth. Optimize.
-    1.0.2   K Hoang      20/12/2019 Add more Blynk examples.Change example names to avoid duplication.
+  Version: 1.1.0
+
+  The ESP8266 timers are badly designed, using only 23-bit counter along with maximum 256 prescaler. They're only better than UNO / Mega.
+  The ESP8266 has two hardware timers, but timer0 has been used for WiFi and it's not advisable to use. Only timer1 is available.
+  The timer1's 23-bit counter terribly can count only up to 8,388,607. So the timer1 maximum interval is very short.
+  Using 256 prescaler, maximum timer1 interval is only 26.843542 seconds !!!
+
+  Version Modified By   Date      Comments
+  ------- -----------  ---------- -----------
+  1.0.0   K Hoang      04/12/2019 Initial coding
+  1.0.1   K Hoang      05/12/2019 Add more features getPosition and getPulseWidth. Optimize.
+  1.0.2   K Hoang      20/12/2019 Add more Blynk examples.Change example names to avoid duplication.
+  1.1.0   K Hoang      03/01/2021 Fix bug. Add TOC and Version String.
  *****************************************************************************************************************************/
 
 #include "ESP8266_ISR_Servo.h"
 #include <string.h>
 
 #ifndef ISR_SERVO_DEBUG
-#define ISR_SERVO_DEBUG      0
+  #define ISR_SERVO_DEBUG      1
 #endif
 
 //extern void ICACHE_RAM_ATTR ESP8266_ISR_Servo_Handler(void);
@@ -56,16 +63,12 @@ void ESP8266_ISR_Servo::init()
   // Interval in microsecs
   if ( ITimer.attachInterruptInterval(TIMER_INTERVAL_MICRO, (timer_callback) ESP8266_ISR_Servo_Handler ) )
   {
-#if (ISR_SERVO_DEBUG > 0)
-    Serial.println("Starting  ITimer OK");
-#endif
+    ISR_SERVO_LOGERROR("Starting  ITimer OK");
   }
   else
   {
-#if (ISR_SERVO_DEBUG > 0)
     // Can't set ITimer correctly. Select another freq. or interval
-    Serial.println("Fail setup ITimer");
-#endif
+    ISR_SERVO_LOGERROR("Fail setup ESP8266_ITimer"); 
   }
 
   for (int servoIndex = 0; servoIndex < MAX_SERVOS; servoIndex++)
@@ -108,9 +111,7 @@ void ICACHE_RAM_ATTR ESP8266_ISR_Servo::run()
   // Reset when reaching 20000us / 10us = 2000
   if (timerCount++ >= REFRESH_INTERVAL / TIMER_INTERVAL_MICRO)
   {
-#if (ISR_SERVO_DEBUG > 1)
-    Serial.println("Reset count");
-#endif
+    ISR_SERVO_LOGDEBUG("Reset count");
 
     timerCount = 1;
   }
@@ -130,9 +131,7 @@ int ESP8266_ISR_Servo::findFirstFreeSlot()
   {
     if (servo[servoIndex].enabled == false)
     {
-#if (ISR_SERVO_DEBUG > 1)
-      Serial.println("Index = " + String(servoIndex));
-#endif
+      ISR_SERVO_LOGDEBUG1("Index =", servoIndex);
 
       return servoIndex;
     }
@@ -168,11 +167,9 @@ int ESP8266_ISR_Servo::setupServo(uint8_t pin, int min, int max)
   pinMode(pin, OUTPUT);
 
   numServos++;
-
-#if (ISR_SERVO_DEBUG > 0)
-  Serial.print("Index = " + String(servoIndex) + ", count = " + String(servo[servoIndex].count));
-  Serial.println(", min = " + String(servo[servoIndex].min) + ", max = " + String(servo[servoIndex].max));
-#endif
+  
+  ISR_SERVO_LOGDEBUG3("Index =", servoIndex, ", count =", servo[servoIndex].count);
+  ISR_SERVO_LOGDEBUG3("min =", servo[servoIndex].min, ", max =", servo[servoIndex].max);
 
   return servoIndex;
 }
@@ -188,10 +185,9 @@ bool ESP8266_ISR_Servo::setPosition(unsigned servoIndex, int position)
     servo[servoIndex].position  = position;
     servo[servoIndex].count     = map(position, 0, 180, servo[servoIndex].min, servo[servoIndex].max) / TIMER_INTERVAL_MICRO;
 
-#if (ISR_SERVO_DEBUG > 0)
-    Serial.println("Idx = " + String(servoIndex) + ", cnt = " + String(servo[servoIndex].count) + ", pos = " + String(servo[servoIndex].position));
-#endif
-
+    ISR_SERVO_LOGERROR1("Idx =", servoIndex);
+    ISR_SERVO_LOGERROR3("cnt =", servo[servoIndex].count, ", pos =",servo[servoIndex].position);
+    
     return true;
   }
 
@@ -208,9 +204,8 @@ int ESP8266_ISR_Servo::getPosition(unsigned servoIndex)
   // Updates interval of existing specified servo
   if ( servo[servoIndex].enabled && (servo[servoIndex].pin <= ESP8266_MAX_PIN) )
   {
-#if (ISR_SERVO_DEBUG > 0)
-    Serial.println("Idx = " + String(servoIndex) + ", cnt = " + String(servo[servoIndex].count) + ", pos = " + String(servo[servoIndex].position));
-#endif
+    ISR_SERVO_LOGERROR1("Idx =", servoIndex);
+    ISR_SERVO_LOGERROR3("cnt =", servo[servoIndex].count, ", pos =",servo[servoIndex].position);
 
     return (servo[servoIndex].position);
   }
@@ -240,9 +235,8 @@ bool ESP8266_ISR_Servo::setPulseWidth(unsigned servoIndex, unsigned int pulseWid
     servo[servoIndex].count     = pulseWidth / TIMER_INTERVAL_MICRO;
     servo[servoIndex].position  = map(pulseWidth, servo[servoIndex].min, servo[servoIndex].max, 0, 180);
 
-#if (ISR_SERVO_DEBUG > 0)
-    Serial.println("Idx = " + String(servoIndex) + ", cnt = " + String(servo[servoIndex].count) + ", pos = " + String(servo[servoIndex].position));
-#endif
+    ISR_SERVO_LOGERROR1("Idx =", servoIndex);
+    ISR_SERVO_LOGERROR3("cnt =", servo[servoIndex].count, ", pos =",servo[servoIndex].position);
 
     return true;
   }
@@ -260,9 +254,8 @@ unsigned int ESP8266_ISR_Servo::getPulseWidth(unsigned servoIndex)
   // Updates interval of existing specified servo
   if ( servo[servoIndex].enabled && (servo[servoIndex].pin <= ESP8266_MAX_PIN) )
   {
-#if (ISR_SERVO_DEBUG > 0)
-    Serial.println("Idx = " + String(servoIndex) + ", cnt = " + String(servo[servoIndex].count) + ", pos = " + String(servo[servoIndex].position));
-#endif
+    ISR_SERVO_LOGERROR1("Idx =", servoIndex);
+    ISR_SERVO_LOGERROR3("cnt =", servo[servoIndex].count, ", pos =",servo[servoIndex].position);
 
     return (servo[servoIndex].count * TIMER_INTERVAL_MICRO );
   }
@@ -325,7 +318,9 @@ bool ESP8266_ISR_Servo::enable(unsigned servoIndex)
     return false;
   }
 
-  if ( servo[servoIndex].count >= servo[servoIndex].min )
+  // Bug fix. See "Fixed count >= min comparison for servo enable."
+  // (https://github.com/khoih-prog/ESP32_ISR_Servo/pull/1)
+  if ( servo[servoIndex].count >= servo[servoIndex].min / TIMER_INTERVAL_MICRO )
     servo[servoIndex].enabled = true;
 
   return true;
@@ -350,7 +345,10 @@ void ESP8266_ISR_Servo::enableAll()
   // Enable all servos with a enabled and count != 0 (has PWM) and good pin
   for (int servoIndex = 0; servoIndex < MAX_SERVOS; servoIndex++)
   {
-    if ( (servo[servoIndex].count >= servo[servoIndex].min ) && !servo[servoIndex].enabled && (servo[servoIndex].pin <= ESP8266_MAX_PIN) )
+    // Bug fix. See "Fixed count >= min comparison for servo enable."
+    // (https://github.com/khoih-prog/ESP32_ISR_Servo/pull/1)
+    if ( (servo[servoIndex].count >= servo[servoIndex].min / TIMER_INTERVAL_MICRO ) && !servo[servoIndex].enabled 
+      && (servo[servoIndex].pin <= ESP8266_MAX_PIN) )
     {
       servo[servoIndex].enabled = true;
     }
