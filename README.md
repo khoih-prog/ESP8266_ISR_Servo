@@ -16,6 +16,7 @@
   * [Important Notes about using ISR](#important-notes-about-using-isr)
   * [Currently supported Boards](#currently-supported-boards)
 * [Changelog](#changelog)
+  * [Releases v1.2.0](#releases-v120)
   * [Releases v1.1.0](#releases-v110)
   * [Releases v1.0.2](#releases-v102)
   * [Releases v1.0.1](#releases-v101)
@@ -100,6 +101,10 @@ This [**ESP8266_ISR_Servo** library](https://github.com/khoih-prog/ESP8266_ISR_S
 
 ## Changelog
 
+### Releases v1.2.0
+
+1. Update to match new ESP8266 core v3.0.0
+
 ### Releases v1.1.0
 
 1. Fix bug. See [Fixed count >= min comparison for servo enable](https://github.com/khoih-prog/ESP32_ISR_Servo/pull/1)
@@ -124,7 +129,9 @@ This [**ESP8266_ISR_Servo** library](https://github.com/khoih-prog/ESP8266_ISR_S
 ## Prerequisites
 
 1. [`Arduino IDE 1.8.13+`](https://www.arduino.cc/en/Main/Software)
-2. [`ESP8266 core 2.7.4+`](https://github.com/esp8266/Arduino#installing-with-boards-manager) for ESP8266 boards.
+2. [`ESP8266 Core 3.0.0+`](https://github.com/esp8266/Arduino) for ESP8266-based boards. [![Latest release](https://img.shields.io/github/release/esp8266/Arduino.svg)](https://github.com/esp8266/Arduino/releases/latest/). To use ESP8266 core 2.7.1+ for LittleFS. 
+3. [`Blynk_WM library v1.5.0+`](https://github.com/khoih-prog/Blynk_WM) to use with some examples. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/Blynk_WM.svg?)](https://www.ardu-badge.com/Blynk_WM).
+4. [`ESP_DoubleResetDetector library v1.1.1+`](https://github.com/khoih-prog/ESP_DoubleResetDetector) to use with some examples. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_DoubleResetDetector.svg?)](https://www.ardu-badge.com/ESP_DoubleResetDetector).
 
 ---
 
@@ -459,10 +466,10 @@ void loop()
 
 
 ```
-Starting ESP8266_BlynkServoControl using LITTLEFS with SSL on ESP8266_NODEMCU
-Blynk_WM v1.1.0
+Starting ESP8266_BlynkServoControl using LITTLEFS with SSL on ESP8266_NODEMCU_ESP12E
+Blynk_WM v1.5.0
 ESP_DoubleResetDetector v1.1.1
-ESP8266_ISR_Servo v1.1.0
+ESP8266_ISR_Servo v1.2.0
 [290] Hostname=8266-Master-Controller
 [309] LoadCfgFile 
 [309] OK
@@ -487,7 +494,7 @@ ESP8266_ISR_Servo v1.1.0
    / _ )/ /_ _____  / /__
   / _  / / // / _ \/  '_/
  /____/_/\_, /_//_/_/\_\
-        /___/ v0.6.1 on NodeMCU
+        /___/ v0.6.1 on ESP8266_NODEMCU_ESP12E
 
 [22618] NTP time: Sun Jan  3 07:08:22 2021
 [22619] BlynkArduinoClient.connect: Connecting to account.duckdns.org:9443
@@ -503,11 +510,11 @@ Setup Servo3 OK
 ```
 ---
 
-### 2. ESP8266_MultipleRandomServos on ESP8266_NODEMCU
+### 2. ESP8266_MultipleRandomServos on ESP8266_NODEMCU_ESP12E
 
 ```
-Starting ESP8266_MultipleRandomServos on ESP8266_NODEMCU
-ESP8266_ISR_Servo v1.1.0
+Starting ESP8266_MultipleRandomServos on ESP8266_NODEMCU_ESP12E
+ESP8266_ISR_Servo v1.2.0
 [ISR_SERVO] ESP8266FastTimerInterrupt: _fre = 5000000.00 , _count = 50
 [ISR_SERVO] Starting  ITimer OK
 Setup OK Servo index = 0
@@ -606,12 +613,12 @@ Servos idx = 5, act. pos. (deg) = [ISR_SERVO] Idx = 5
 
 ---
 
-### 3. ESP8266_ISR_MultiServos on ESP8266_NODEMCU
+### 3. ESP8266_ISR_MultiServos on ESP8266_NODEMCU_ESP12E
 
 
 ```
-Starting ESP8266_ISR_MultiServos on ESP8266_NODEMCU
-ESP8266_ISR_Servo v1.1.0
+Starting ESP8266_ISR_MultiServos on ESP8266_NODEMCU_ESP12E
+ESP8266_ISR_Servo v1.2.0
 [ISR_SERVO] ESP8266FastTimerInterrupt: _fre = 5000000.00 , _count = 50
 [ISR_SERVO] Starting  ITimer OK
 Setup Servo1 OK
@@ -678,6 +685,10 @@ Sometimes, the library will only work if you update the board core to the latest
 
 ## Releases
 
+### Releases v1.2.0
+
+1. Update to match new ESP8266 core v3.0.0
+
 ### Releases v1.1.0
 
 1. Fix bug. See [Fixed count >= min comparison for servo enable](https://github.com/khoih-prog/ESP32_ISR_Servo/pull/1)
@@ -716,6 +727,7 @@ Submit issues to: [ESP8266_ISR_Servo issues](https://github.com/khoih-prog/ESP82
 2. Add functions `getPosition()` and `getPulseWidth()`
 3. Optimize the code
 4. Add more complicated examples
+5. Update to match new ESP8266 core v3.0.0
 
 ---
 ---
