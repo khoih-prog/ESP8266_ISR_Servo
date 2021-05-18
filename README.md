@@ -41,9 +41,9 @@
 * [Example ESP8266_BlynkServoControl](#example-esp8266_blynkservocontrol)
   * [1. File ESP8266_BlynkServoControl.ino](#1-file-esp8266_blynkservocontrolino)
 * [Debug Terminal Output Samples](#debug-terminal-output-samples)
-  * [1. ESP8266_BlynkServoControl using LITTLEFS with SSL on ESP8266_NODEMCU](#1-esp8266_blynkservocontrol-using-littlefs-with-ssl-on-esp8266_nodemcu)
-  * [2. ESP8266_MultipleRandomServos on ESP8266_NODEMCU](#2-esp8266_multiplerandomservos-on-esp8266_nodemcu)
-  * [3. ESP8266_ISR_MultiServos on ESP8266_NODEMCU](#3-esp8266_isr_multiservos-on-esp8266_nodemcu)
+  * [1. ESP8266_BlynkServoControl using LITTLEFS with SSL on ESP8266_NODEMCU_ESP12E](#1-esp8266_blynkservocontrol-using-littlefs-with-ssl-on-esp8266_nodemcu_esp12e)
+  * [2. ESP8266_MultipleRandomServos on ESP8266_NODEMCU_ESP12E](#2-esp8266_multiplerandomservos-on-esp8266_nodemcu_esp12e)
+  * [3. ESP8266_ISR_MultiServos on ESP8266_NODEMCU_ESP12E](#3-esp8266_isr_multiservos-on-esp8266_nodemcu_esp12e)
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
 * [Releases](#releases)
@@ -130,8 +130,8 @@ This [**ESP8266_ISR_Servo** library](https://github.com/khoih-prog/ESP8266_ISR_S
 
 1. [`Arduino IDE 1.8.13+`](https://www.arduino.cc/en/Main/Software)
 2. [`ESP8266 Core 3.0.0+`](https://github.com/esp8266/Arduino) for ESP8266-based boards. [![Latest release](https://img.shields.io/github/release/esp8266/Arduino.svg)](https://github.com/esp8266/Arduino/releases/latest/). To use ESP8266 core 2.7.1+ for LittleFS. 
-3. [`Blynk_WM library v1.5.0+`](https://github.com/khoih-prog/Blynk_WM) to use with some examples. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/Blynk_WiFiManager.svg?)](https://www.ardu-badge.com/Blynk_WiFiManager).
-4. [`ESP_DoubleResetDetector library v1.1.1+`](https://github.com/khoih-prog/ESP_DoubleResetDetector) to use with some examples. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_DoubleResetDetector.svg?)](https://www.ardu-badge.com/ESP_DoubleResetDetector).
+3. [`Blynk_WM library v1.5.0+`](https://github.com/khoih-prog/Blynk_WM) to use with some examples. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/Blynk_WiFiManager.svg?)](https://www.ardu-badge.com/Blynk_WiFiManager)
+4. [`ESP_DoubleResetDetector library v1.1.1+`](https://github.com/khoih-prog/ESP_DoubleResetDetector) to use with some examples. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP_DoubleResetDetector.svg?)](https://www.ardu-badge.com/ESP_DoubleResetDetector)
 
 ---
 
@@ -462,7 +462,7 @@ void loop()
 
 ### Debug Terminal Output Samples
 
-### 1. ESP8266_BlynkServoControl using LITTLEFS with SSL on ESP8266_NODEMCU
+### 1. ESP8266_BlynkServoControl using LITTLEFS with SSL on ESP8266_NODEMCU_ESP12E
 
 
 ```
