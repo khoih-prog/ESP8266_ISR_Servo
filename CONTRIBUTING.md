@@ -14,8 +14,8 @@ If you don't find anything, please [open a new issue](https://github.com/khoih-p
 
 Please ensure to specify the following:
 
-* Arduino IDE version (e.g. 1.8.13) or Platform.io version
-* `ESP8266` Core Version (e.g. ESP8266 core v3.0.0)
+* Arduino IDE version (e.g. 1.8.19) or Platform.io version
+* `ESP8266` Core Version (e.g. ESP8266 core v3.0.2)
 * Contextual information (e.g. what you were trying to achieve)
 * Simplest possible steps to reproduce
 * Anything that might be relevant in your opinion, such as:
@@ -26,10 +26,10 @@ Please ensure to specify the following:
 ### Example
 
 ```
-Arduino IDE version: 1.8.13
-ESP8266 Core Version v3.0.0
+Arduino IDE version: 1.8.19
+ESP8266 Core Version v3.0.2
 OS: Ubuntu 20.04 LTS
-Linux Inspiron 5.4.0-73-generic #82-Ubuntu SMP Wed Apr 14 17:39:42 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
+Linux xy-Inspiron-3593 5.4.0-100-generic #113-Ubuntu SMP Thu Feb 3 18:43:29 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
 
 Context:
 I encountered a crash while trying to use the Timer Interrupt.
@@ -49,3 +49,4 @@ There are usually some outstanding feature requests in the [existing issues list
 ### Sending Pull Requests
 
 Pull Requests with changes and fixes are also welcome!
+

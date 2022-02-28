@@ -28,7 +28,7 @@
   The timer1's 23-bit counter terribly can count only up to 8,388,607. So the timer1 maximum interval is very short.
   Using 256 prescaler, maximum timer1 interval is only 26.843542 seconds !!!
 
-  Version: 1.2.0
+  Version: 1.3.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -37,47 +37,28 @@
   1.0.2   K Hoang      20/12/2019 Add more Blynk examples.Change example names to avoid duplication.
   1.1.0   K Hoang      03/01/2021 Fix bug. Add TOC and Version String.
   1.2.0   K Hoang      18/05/2021 Update to match new ESP8266 core v3.0.0
+  1.3.0   K Hoang      28/02/2022 Convert to `h-only` style. Optimize code by using passing by `reference`
  *****************************************************************************************************************************/
 
 #pragma once
 
 #ifndef ESP8266
-  #error This code is designed to run on ESP8266 platform, not Arduino nor ESP32! Please check your Tools->Board setting.
+  #error This code is designed to run on ESP8266 platform! Please check your Tools->Board setting.
 #endif
 
 #ifndef ESP8266FastTimerInterrupt_h
 #define ESP8266FastTimerInterrupt_h
 
 #if !defined(ESP8266_ISR_SERVO_VERSION)
-  #define ESP8266_ISR_SERVO_VERSION       "ESP8266_ISR_Servo v1.2.0"
+  #define ESP8266_ISR_SERVO_VERSION             "ESP8266_ISR_Servo v1.3.0"
+  
+  #define ESP8266_ISR_SERVO_VERSION_MAJOR       1
+  #define ESP8266_ISR_SERVO_VERSION_MINOR       3
+  #define ESP8266_ISR_SERVO_VERSION_PATCH       0
+
+  #define ESP8266_ISR_SERVO_VERSION_INT         1003000
+  
 #endif
-
-#ifndef TIMER_INTERRUPT_DEBUG
-  #define TIMER_INTERRUPT_DEBUG         1
-#endif
-
-#ifndef ISR_SERVO_DEBUG
-  #define ISR_SERVO_DEBUG               1
-#endif
-
-//////////////////////////////////////////
-
-#if !defined(ISR_SERVO_DEBUG_OUTPUT)
-  #define ISR_SERVO_DEBUG_OUTPUT    Serial
-#endif
-
-#define ISR_SERVO_LOGERROR(x)         if(ISR_SERVO_DEBUG>0) { ISR_SERVO_DEBUG_OUTPUT.print("[ISR_SERVO] "); ISR_SERVO_DEBUG_OUTPUT.println(x); }
-#define ISR_SERVO_LOGERROR0(x)        if(ISR_SERVO_DEBUG>0) { ISR_SERVO_DEBUG_OUTPUT.print(x); }
-#define ISR_SERVO_LOGERROR1(x,y)      if(ISR_SERVO_DEBUG>0) { ISR_SERVO_DEBUG_OUTPUT.print("[ISR_SERVO] "); ISR_SERVO_DEBUG_OUTPUT.print(x); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.println(y); }
-#define ISR_SERVO_LOGERROR2(x,y,z)    if(ISR_SERVO_DEBUG>0) { ISR_SERVO_DEBUG_OUTPUT.print("[ISR_SERVO] "); ISR_SERVO_DEBUG_OUTPUT.print(x); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.print(y); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.println(z); }
-#define ISR_SERVO_LOGERROR3(x,y,z,w)  if(ISR_SERVO_DEBUG>0) { ISR_SERVO_DEBUG_OUTPUT.print("[ISR_SERVO] "); ISR_SERVO_DEBUG_OUTPUT.print(x); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.print(y); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.print(z); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.println(w); }
-
-#define ISR_SERVO_LOGDEBUG(x)         if(ISR_SERVO_DEBUG>1) { ISR_SERVO_DEBUG_OUTPUT.print("[ISR_SERVO] "); ISR_SERVO_DEBUG_OUTPUT.println(x); }
-#define ISR_SERVO_LOGDEBUG0(x)        if(ISR_SERVO_DEBUG>1) { ISR_SERVO_DEBUG_OUTPUT.print(x); }
-#define ISR_SERVO_LOGDEBUG1(x,y)      if(ISR_SERVO_DEBUG>1) { ISR_SERVO_DEBUG_OUTPUT.print("[ISR_SERVO] "); ISR_SERVO_DEBUG_OUTPUT.print(x); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.println(y); }
-#define ISR_SERVO_LOGDEBUG2(x,y,z)    if(ISR_SERVO_DEBUG>1) { ISR_SERVO_DEBUG_OUTPUT.print("[ISR_SERVO] "); ISR_SERVO_DEBUG_OUTPUT.print(x); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.print(y); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.println(z); }
-#define ISR_SERVO_LOGDEBUG3(x,y,z,w)  if(ISR_SERVO_DEBUG>1) { ISR_SERVO_DEBUG_OUTPUT.print("[ISR_SERVO] "); ISR_SERVO_DEBUG_OUTPUT.print(x); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.print(y); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.print(z); ISR_SERVO_DEBUG_OUTPUT.print(" "); ISR_SERVO_DEBUG_OUTPUT.println(w); }
-//////////////////////////////////////////
 
 
 /* From /arduino-1.8.10/hardware/esp8266com/esp8266/cores/esp8266/esp8266_peri.h
@@ -116,7 +97,7 @@ typedef ESP8266TimerInterrupt ESP8266Timer;
 #define MAX_ESP8266_NUM_TIMERS      1
 #define MAX_ESP8266_COUNT           8388607
 
-typedef void (*timer_callback)  (void);
+typedef void (*timer_callback)  ();
 
 
 class ESP8266TimerInterrupt

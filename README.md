@@ -6,49 +6,45 @@
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#Contributing)
 [![GitHub issues](https://img.shields.io/github/issues/khoih-prog/ESP8266_ISR_Servo.svg)](http://github.com/khoih-prog/ESP8266_ISR_Servo/issues)
 
-<a href="https://www.buymeacoffee.com/khoihprog6" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 50px !important;width: 181px !important;" ></a>
+<a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Donate to my libraries using BuyMeACoffee" style="height: 50px !important;width: 181px !important;" ></a>
+<a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-orange.svg?logo=buy-me-a-coffee&logoColor=FFDD00" style="height: 20px !important;width: 200px !important;" ></a>
 
 ---
 ---
 
 ## Table of Contents
 
+* [Important Change from v1.3.0](#Important-Change-from-v130)
 * [Why do we need this ESP8266_ISR_Servo library](#why-do-we-need-this-esp8266_isr_servo-library)
   * [Features](#features)
   * [Important Notes about using ISR](#important-notes-about-using-isr)
   * [Currently supported Boards](#currently-supported-boards)
-* [Changelog](#changelog)
-  * [Releases v1.2.0](#releases-v120)
-  * [Releases v1.1.0](#releases-v110)
-  * [Releases v1.0.2](#releases-v102)
-  * [Releases v1.0.1](#releases-v101)
+* [Changelog](changelog.md)
 * [Prerequisites](#prerequisites)
 * [Installation](#installation)
   * [Use Arduino Library Manager](#use-arduino-library-manager)
   * [Manual Install](#manual-install)
   * [VS Code & PlatformIO](#vs-code--platformio)
+* [HOWTO Fix `Multiple Definitions` Linker Error](#howto-fix-multiple-definitions-linker-error)
 * [More useful Information](#more-useful-information)
   * [ESP8266 Hardware Timers](#esp8266-hardware-timers)
   * [New functions](#new-functions)
   * [What special in this ESP8266_ISR_Servo library](#what-special-in-this-esp8266_isr_servo-library)
 * [HOWTO Usage](#howto-usage)
 * [Examples](#examples)
-  * [ 1. **ESP8266_BlynkServoControl**](examples/ESP8266_BlynkServoControl)
+  * [ 1. **multiFileProject**](examples/multiFileProject) **New**
   * [ 2. ESP8266_ISR_MultiServos](examples/ESP8266_ISR_MultiServos)
   * [ 3. ESP8266_MultipleRandomServos](examples/ESP8266_MultipleRandomServos)
   * [ 4. ESP8266_MultipleServos](examples/ESP8266_MultipleServos)
   * [ 5. ISR_MultiServos](examples/ISR_MultiServos)
   * [ 6. MultipleRandomServos](examples/MultipleRandomServos)
   * [ 7. MultipleServos](examples/MultipleServos)
-* [Example ESP8266_BlynkServoControl](#example-esp8266_blynkservocontrol)
-  * [1. File ESP8266_BlynkServoControl.ino](#1-file-esp8266_blynkservocontrolino)
+* [Example ESP8266_MultipleRandomServos](#example-ESP8266_MultipleRandomServos)
 * [Debug Terminal Output Samples](#debug-terminal-output-samples)
-  * [1. ESP8266_BlynkServoControl using LITTLEFS with SSL on ESP8266_NODEMCU_ESP12E](#1-esp8266_blynkservocontrol-using-littlefs-with-ssl-on-esp8266_nodemcu_esp12e)
-  * [2. ESP8266_MultipleRandomServos on ESP8266_NODEMCU_ESP12E](#2-esp8266_multiplerandomservos-on-esp8266_nodemcu_esp12e)
-  * [3. ESP8266_ISR_MultiServos on ESP8266_NODEMCU_ESP12E](#3-esp8266_isr_multiservos-on-esp8266_nodemcu_esp12e)
+  * [1. ESP8266_MultipleRandomServos on ESP8266_NODEMCU_ESP12E](#2-esp8266_multiplerandomservos-on-esp8266_nodemcu_esp12e)
+  * [2. ESP8266_ISR_MultiServos on ESP8266_NODEMCU_ESP12E](#3-esp8266_isr_multiservos-on-esp8266_nodemcu_esp12e)
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
-* [Releases](#releases)
 * [Issues](#issues)
 * [TO DO](#to-do)
 * [DONE](#done)
@@ -56,6 +52,15 @@
 * [Contributing](#contributing)
 * [License](#license)
 * [Copyright](#copyright)
+
+---
+---
+
+### Important Change from v1.3.0
+
+Please have a look at [HOWTO Fix `Multiple Definitions` Linker Error](#howto-fix-multiple-definitions-linker-error)
+
+
 
 ---
 ---
@@ -157,8 +162,36 @@ Another way to install is to:
 
 1. Install [VS Code](https://code.visualstudio.com/)
 2. Install [PlatformIO](https://platformio.org/platformio-ide)
-3. Install [**ESP8266_ISR_Servo** library](https://platformio.org/lib/show/6920/ESP8266_ISR_Servo) by using [Library Manager](https://platformio.org/lib/show/6920/ESP8266_ISR_Servo/installation). Search for **ESP8266_ISR_Servo** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
+3. Install [**ESP8266_ISR_Servo** library](https://registry.platformio.org/libraries/khoih-prog/ESP8266_ISR_Servo) by using [Library Manager](https://registry.platformio.org/libraries/khoih-prog/ESP8266_ISR_Servo/installation). Search for **ESP8266_ISR_Servo** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
 4. Use included [platformio.ini](platformio/platformio.ini) file from examples to ensure that all dependent libraries will installed automatically. Please visit documentation for the other options and examples at [Project Configuration File](https://docs.platformio.org/page/projectconf.html)
+
+
+---
+---
+
+### HOWTO Fix `Multiple Definitions` Linker Error
+
+The current library implementation, using `xyz-Impl.h` instead of standard `xyz.cpp`, possibly creates certain `Multiple Definitions` Linker error in certain use cases.
+
+You can include this `.hpp` file
+
+```
+// Can be included as many times as necessary, without `Multiple Definitions` Linker Error
+#include "ESP8266_ISR_Servo.hpp"     //https://github.com/khoih-prog/ESP8266_ISR_Servo
+```
+
+in many files. But be sure to use the following `.h` file **in just 1 `.h`, `.cpp` or `.ino` file**, which must **not be included in any other file**, to avoid `Multiple Definitions` Linker Error
+
+```
+// To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
+#include "ESP8266_ISR_Servo.h"           //https://github.com/khoih-prog/ESP8266_ISR_Servo
+```
+
+Check the new [**multiFileProject** example](examples/multiFileProject) for a `HOWTO` demo.
+
+Have a look at the discussion in [Different behaviour using the src_cpp or src_h lib #80](https://github.com/khoih-prog/ESPAsync_WiFiManager/discussions/80)
+
+
 
 ---
 ---
@@ -189,6 +222,8 @@ int getPosition(unsigned servoIndex);
 unsigned int getPulseWidth(unsigned servoIndex);
 ```
 
+---
+
 ### What special in this [ESP8266_ISR_Servo library](https://github.com/khoih-prog/ESP8266_ISR_Servo)
 
 Now these new `16 ISR-based Servo controllers` just use one ESP8266 Hardware Timer. The number 16 is just arbitrarily chosen, and depending on application, you can increase that number to 32, 48, etc. without problem.
@@ -211,89 +246,15 @@ in loop(), using delay() function as an example. The elapsed time then is very u
 
 How to use:
 
-```
-#define TIMER_INTERRUPT_DEBUG       1
-#define ISR_SERVO_DEBUG             1
+https://github.com/khoih-prog/ESP8266_ISR_Servo/blob/9a8757117d2c901bed222990f1154b4cfa3fb7fd/examples/ESP8266_ISR_MultiServos/ESP8266_ISR_MultiServos.ino#L70-L147
 
-#include "ESP8266_ISR_Servo.h"
-
-// Published values for SG90 servos; adjust if needed
-#define MIN_MICROS      800  //544
-#define MAX_MICROS      2450
-
-int servoIndex1  = -1;
-int servoIndex2  = -1;
-
-void setup()
-{
-  Serial.begin(115200);
-  while (!Serial);
-
-  delay(200);
-
-  Serial.print(F("\nStarting ESP8266_ISR_MultiServos on ")); Serial.println(ARDUINO_BOARD);
-  Serial.println(ESP8266_ISR_SERVO_VERSION);
-  
-  servoIndex1 = ISR_Servo.setupServo(D8, MIN_MICROS, MAX_MICROS);
-  servoIndex2 = ISR_Servo.setupServo(D7, MIN_MICROS, MAX_MICROS);
-
-  if (servoIndex1 != -1)
-    Serial.println(F("Setup Servo1 OK"));
-  else
-    Serial.println(F("Setup Servo1 failed"));
-
-  if (servoIndex2 != -1)
-    Serial.println(F("Setup Servo2 OK"));
-  else
-    Serial.println(F("Setup Servo2 failed"));
-}
-
-void loop()
-{
-  int position;
-
-  if ( ( servoIndex1 != -1) && ( servoIndex2 != -1) )
-  {
-    for (position = 0; position <= 180; position++)
-    {
-      // goes from 0 degrees to 180 degrees
-      // in steps of 1 degree
-
-      if (position % 30 == 0)
-      {
-        Serial.print(F("Servo1 pos = ")); Serial.print(position);
-        Serial.print(F(", Servo2 pos = ")); Serial.println(180 - position);
-      }
-      
-      ISR_Servo.setPosition(servoIndex1, position);
-      ISR_Servo.setPosition(servoIndex2, 180 - position);
-      // waits 15ms for the servo to reach the position
-      delay(50  /*15*/);
-    }
-
-    delay(5000);
-
-    for (position = 180; position >= 0; position--)
-    {
-      // goes from 180 degrees to 0 degrees
-      ISR_Servo.setPosition(servoIndex1, position);
-      ISR_Servo.setPosition(servoIndex2, 180 - position);
-      // waits 15ms for the servo to reach the position
-      delay(50  /*15*/);
-    }
-
-    delay(5000);
-  }
-}
-
-```
 
 ---
 ---
 
 ### Examples: 
 
- 1. [**ESP8266_BlynkServoContro**](examples/ESP8266_BlynkServoControl)
+ 1. [**multiFileProject**](examples/multiFileProject) **New**
  2. [ESP8266_ISR_MultiServos](examples/ESP8266_ISR_MultiServos)
  3. [ESP8266_MultipleRandomServos](examples/ESP8266_MultipleRandomServos) 
  4. [ESP8266_MultipleServos](examples/ESP8266_MultipleServos) 
@@ -304,219 +265,21 @@ void loop()
 ---
 ---
 
-### Example [ESP8266_BlynkServoControl](examples/ESP8266_BlynkServoControl)
+### Example [ESP8266_MultipleRandomServos](examples/ESP8266_MultipleRandomServos)
 
+https://github.com/khoih-prog/ESP8266_ISR_Servo/blob/9a8757117d2c901bed222990f1154b4cfa3fb7fd/examples/ESP8266_MultipleRandomServos/ESP8266_MultipleRandomServos.ino#L61-L233
 
-#### 1. File [ESP8266_BlynkServoControl.ino](examples/ESP8266_BlynkServoControl/ESP8266_BlynkServoControl.ino)
-
-```cpp
-// Please use the default Config Portal password MyESP_XXXXXX, where ESP_XXXXXX is the Config Portal SSID
-
-#include "defines.h"
-#include "Credentials.h"
-#include "dynamicParams.h"
-
-
-//See file .../hardware/espressif/esp32/variants/(esp32|doitESP32devkitV1)/pins_arduino.h
-#define LED_BUILTIN       2         // Pin D4 mapped to pin GPIO2/TXD1 of ESP8266, NodeMCU and WeMoS, control on-board LED
-//PIN_D0 can't be used for PWM/I2C
-#define PIN_D0            16        // Pin D0 mapped to pin GPIO16/USER/WAKE of ESP8266. This pin is also used for Onboard-Blue LED. PIN_D0 = 0 => LED ON
-#define PIN_D1            5         // Pin D1 mapped to pin GPIO5 of ESP8266
-#define PIN_D2            4         // Pin D2 mapped to pin GPIO4 of ESP8266
-#define PIN_D3            0         // Pin D3 mapped to pin GPIO0/FLASH of ESP8266
-#define PIN_D4            2         // Pin D4 mapped to pin GPIO2/TXD1 of ESP8266
-#define PIN_LED           2         // Pin D4 mapped to pin GPIO2/TXD1 of ESP8266, NodeMCU and WeMoS, control on-board LED
-#define PIN_D5            14        // Pin D5 mapped to pin GPIO14/HSCLK of ESP8266
-#define PIN_D6            12        // Pin D6 mapped to pin GPIO12/HMISO of ESP8266
-#define PIN_D7            13        // Pin D7 mapped to pin GPIO13/RXD2/HMOSI of ESP8266
-#define PIN_D8            15        // Pin D8 mapped to pin GPIO15/TXD2/HCS of ESP8266
-
-#define TIMER_INTERRUPT_DEBUG       1
-#define ISR_SERVO_DEBUG             1
-
-#include "ESP8266_ISR_Servo.h"
-
-// MG996R servo has a running current of  500mA to 900mA @6V and a stall current of 2.5A @ 6V
-// Power supply must be adequate
-// Published values for SG90 servos; adjust if needed
-#define MIN_MICROS      800  //544
-#define MAX_MICROS      2450
-
-int servoIndex1  = -1;
-int servoIndex2  = -1;
-int servoIndex3  = -1;
-
-int servo1Pin = PIN_D6; //SERVO1 PIN
-int servo2Pin = PIN_D7; //SERVO2 PIN
-int servo3Pin = PIN_D8; //SERVO3 PIN
-
-BlynkTimer timer;
-
-// These are Blynk Slider or any Widget (STEP, Numeric Input, being able to output (unsigned) int value from 0-180.
-// You have to map from 0-180 inside widget or in your code. Otherwise, the library will remap the input for you.
-#define BLYNK_VPIN_SERVO1_CONTROL       V21
-#define BLYNK_VPIN_SERVO2_CONTROL       V22
-#define BLYNK_VPIN_SERVO3_CONTROL       V23
-
-//READING FROM VIRTUAL PINS
-// SERVO1
-BLYNK_WRITE(BLYNK_VPIN_SERVO1_CONTROL)
-{
-  ISR_Servo.setPosition(servoIndex1, param.asInt());
-}
-
-//SERVO2
-BLYNK_WRITE(BLYNK_VPIN_SERVO2_CONTROL)
-{
-  ISR_Servo.setPosition(servoIndex2, param.asInt());
-}
-
-//SERVO3
-BLYNK_WRITE(BLYNK_VPIN_SERVO3_CONTROL)
-{
-  ISR_Servo.setPosition(servoIndex3, param.asInt());
-}
-
-void heartBeatPrint(void)
-{
-  static int num = 1;
-
-  if (WiFi.status() == WL_CONNECTED)
-  {
-    if (Blynk.connected())
-      Serial.print(F("B"));        // B means connected to Blynk
-    else
-      Serial.print(F("H"));        // H means connected to WiFi but no Blynk
-  }
-  else
-    Serial.print(F("F"));          // F means not connected to WiFi and Blynk
-
-  if (num == 80)
-  {
-    Serial.println();
-    num = 1;
-  }
-  else if (num++ % 10 == 0)
-  {
-    Serial.print(F(" "));
-  }
-}
-
-void setup()
-{
-  // Debug console
-  Serial.begin(115200);
-  while (!Serial);
-
-  delay(200);
-
-#if (USE_LITTLEFS)
-  Serial.print(F("\nStarting ESP8266_BlynkServoControl using LITTLEFS"));
-#elif (USE_SPIFFS)
-  Serial.print(F("\nStarting ESP8266_BlynkServoControl using SPIFFS"));
-#else
-  Serial.print(F("\nStarting ESP8266_BlynkServoControl using EEPROM"));
-#endif
-
-#if USE_SSL
-  Serial.print(F(" with SSL on ")); Serial.println(ARDUINO_BOARD);
-#else
-  Serial.print(F(" without SSL on ")); Serial.println(ARDUINO_BOARD);
-#endif
-
-  Serial.println(BLYNK_WM_VERSION);
-  Serial.println(ESP_DOUBLE_RESET_DETECTOR_VERSION);
-  Serial.println(ESP8266_ISR_SERVO_VERSION);
-
-  Blynk.begin(HOST_NAME);
-
-  servoIndex1 = ISR_Servo.setupServo(servo1Pin, MIN_MICROS, MAX_MICROS);
-  servoIndex2 = ISR_Servo.setupServo(servo2Pin, MIN_MICROS, MAX_MICROS);
-  servoIndex3 = ISR_Servo.setupServo(servo3Pin, MIN_MICROS, MAX_MICROS);
-
-  if (servoIndex1 != -1)
-    Serial.println(F("Setup Servo1 OK"));
-  else
-    Serial.println(F("Setup Servo1 failed"));
-
-  if (servoIndex2 != -1)
-    Serial.println(F("Setup Servo2 OK"));
-  else
-    Serial.println(F("Setup Servo2 failed"));
-
-  if (servoIndex3 != -1)
-    Serial.println(F("Setup Servo3 OK"));
-  else
-    Serial.println(F("Setup Servo3 failed"));
-
-  timer.setInterval(30000L, heartBeatPrint);
-}
-
-void loop()
-{
-  Blynk.run();
-  timer.run();
-}
-```
 
 ---
 ---
 
 ### Debug Terminal Output Samples
 
-### 1. ESP8266_BlynkServoControl using LITTLEFS with SSL on ESP8266_NODEMCU_ESP12E
-
-
-```
-Starting ESP8266_BlynkServoControl using LITTLEFS with SSL on ESP8266_NODEMCU_ESP12E
-Blynk_WM v1.5.0
-ESP_DoubleResetDetector v1.1.1
-ESP8266_ISR_Servo v1.2.0
-[290] Hostname=8266-Master-Controller
-[309] LoadCfgFile 
-[309] OK
-[309] CCSum=0x3817,RCSum=0x3817
-[312] LoadCredFile 
-[312] OK
-[312] CrCCsum=0x2670,CrRCsum=0x2670
-[312] Hdr=SSL_ESP8266,BrdName=ESP8266_ISR_Servo
-[313] SSID=HueNet1,PW=12345678
-[316] SSID1=HueNet2,PW1=12345678
-[319] Server=account.duckdns.org,Token=token1
-[325] Server1=account.duckdns.org,Token1=token2
-[331] Port=9443
-[333] ======= End Config Data =======
-[336] Connecting MultiWifi...
-[6594] WiFi connected after time: 1
-[6594] SSID: HueNet1, RSSI = -36
-[6594] Channel: 2, IP address: 192.168.2.166
-[6594] bg: WiFi OK. Try Blynk
-[6596] 
-    ___  __          __
-   / _ )/ /_ _____  / /__
-  / _  / / // / _ \/  '_/
- /____/_/\_, /_//_/_/\_\
-        /___/ v0.6.1 on ESP8266_NODEMCU_ESP12E
-
-[22618] NTP time: Sun Jan  3 07:08:22 2021
-[22619] BlynkArduinoClient.connect: Connecting to account.duckdns.org:9443
-[23287] Certificate OK
-[23295] Ready (ping: 2ms).
-[23366] Connected to Blynk Server = account.duckdns.org, Token = token1
-[23366] bg: WiFi+Blynk OK
-[ISR_SERVO] ESP8266FastTimerInterrupt: _fre = 5000000.00 , _count = 50
-[ISR_SERVO] Starting  ITimer OK
-Setup Servo1 OK
-Setup Servo2 OK
-Setup Servo3 OK
-```
----
-
-### 2. ESP8266_MultipleRandomServos on ESP8266_NODEMCU_ESP12E
+### 1. ESP8266_MultipleRandomServos on ESP8266_NODEMCU_ESP12E
 
 ```
 Starting ESP8266_MultipleRandomServos on ESP8266_NODEMCU_ESP12E
-ESP8266_ISR_Servo v1.2.0
+ESP8266_ISR_Servo v1.3.0
 [ISR_SERVO] ESP8266FastTimerInterrupt: _fre = 5000000.00 , _count = 50
 [ISR_SERVO] Starting  ITimer OK
 Setup OK Servo index = 0
@@ -615,12 +378,12 @@ Servos idx = 5, act. pos. (deg) = [ISR_SERVO] Idx = 5
 
 ---
 
-### 3. ESP8266_ISR_MultiServos on ESP8266_NODEMCU_ESP12E
+### 2. ESP8266_ISR_MultiServos on ESP8266_NODEMCU_ESP12E
 
 
 ```
 Starting ESP8266_ISR_MultiServos on ESP8266_NODEMCU_ESP12E
-ESP8266_ISR_Servo v1.2.0
+ESP8266_ISR_Servo v1.3.0
 [ISR_SERVO] ESP8266FastTimerInterrupt: _fre = 5000000.00 , _count = 50
 [ISR_SERVO] Starting  ITimer OK
 Setup Servo1 OK
@@ -685,32 +448,6 @@ Sometimes, the library will only work if you update the board core to the latest
 ---
 ---
 
-## Releases
-
-### Releases v1.2.0
-
-1. Update to match new ESP8266 core v3.0.0
-
-### Releases v1.1.0
-
-1. Fix bug. See [Fixed count >= min comparison for servo enable](https://github.com/khoih-prog/ESP32_ISR_Servo/pull/1)
-2. Clean-up all compiler warnings possible.
-3. Add Table of Contents
-4. Add Version String
-5. Fix and Optimize old examples
-
-### Releases v1.0.2
-
-1. Add example using [Blynk](http://docs.blynk.cc/) to control servos. 
-2. Change example names to avoid duplication.
-
-#### Releases v1.0.1
-
-1. Basic 16 ISR-based servo controllers using 1 hardware timer for ESP8266.
-
----
----
-
 ### Issues ###
 
 Submit issues to: [ESP8266_ISR_Servo issues](https://github.com/khoih-prog/ESP8266_ISR_Servo/issues)
@@ -730,6 +467,10 @@ Submit issues to: [ESP8266_ISR_Servo issues](https://github.com/khoih-prog/ESP82
 3. Optimize the code
 4. Add more complicated examples
 5. Update to match new ESP8266 core v3.0.0
+6. Convert to `h-only` style.
+7. Add example [multiFileProject](examples/multiFileProject) to demo for multiple-file project
+8. Optimize code by using passing by `reference` instead of by `value`
+
 
 ---
 ---
@@ -750,11 +491,13 @@ Submit issues to: [ESP8266_ISR_Servo issues](https://github.com/khoih-prog/ESP82
 ## Contributing
 
 If you want to contribute to this project:
+
 - Report bugs and errors
 - Ask for enhancements
 - Create issues and pull requests
 - Tell other people about this library
 
+---
 ---
 
 ### License
