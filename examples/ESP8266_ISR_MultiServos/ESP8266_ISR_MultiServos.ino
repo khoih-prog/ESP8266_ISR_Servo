@@ -19,24 +19,11 @@
   Loosely based on SimpleTimer - A timer library for Arduino.
   Author: mromani@ottotecnica.com
   Copyright (c) 2010 OTTOTECNICA Italy
-
-  Based on BlynkTimer.h
-  Author: Volodymyr Shymanskyy
   
   The ESP8266 timers are badly designed, using only 23-bit counter along with maximum 256 prescaler. They're only better than UNO / Mega.
   The ESP8266 has two hardware timers, but timer0 has been used for WiFi and it's not advisable to use. Only timer1 is available.
   The timer1's 23-bit counter terribly can count only up to 8,388,607. So the timer1 maximum interval is very short.
   Using 256 prescaler, maximum timer1 interval is only 26.843542 seconds !!!
-
-  Version: 1.2.0
-
-  Version Modified By   Date      Comments
-  ------- -----------  ---------- -----------
-  1.0.0   K Hoang      04/12/2019 Initial coding
-  1.0.1   K Hoang      05/12/2019 Add more features getPosition and getPulseWidth. Optimize.
-  1.0.2   K Hoang      20/12/2019 Add more Blynk examples.Change example names to avoid duplication.
-  1.1.0   K Hoang      03/01/2021 Fix bug. Add TOC and Version String.
-  1.2.0   K Hoang      18/05/2021 Update to match new ESP8266 core v3.0.0
  *****************************************************************************************************************************/
 
 /****************************************************************************************************************************
@@ -81,12 +68,13 @@
 *****************************************************************************************************************************/
 
 #ifndef ESP8266
-  #error This code is designed to run on ESP8266 platform, not Arduino nor ESP32! Please check your Tools->Board setting.
+  #error This code is designed to run on ESP8266 platform! Please check your Tools->Board setting.
 #endif
 
 #define TIMER_INTERRUPT_DEBUG       1
 #define ISR_SERVO_DEBUG             1
 
+// To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
 #include "ESP8266_ISR_Servo.h"
 
 // Published values for SG90 servos; adjust if needed
