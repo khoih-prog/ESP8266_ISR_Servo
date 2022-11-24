@@ -2,10 +2,10 @@
   ESP8266_MultipleServos.ino
   For ESP8266 boards
   Written by Khoi Hoang
-  
+
   Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_ISR_Servo
   Licensed under MIT license
-  
+
   The ESP8266 timers are badly designed, using only 23-bit counter along with maximum 256 prescaler. They're only better than UNO / Mega.
   The ESP8266 has two hardware timers, but timer0 has been used for WiFi and it's not advisable to use. Only timer1 is available.
   The timer1's 23-bit counter terribly can count only up to 8,388,607. So the timer1 maximum interval is very short.
@@ -88,24 +88,28 @@ ISR_servo_t ISR_servo[NUM_SERVOS] =
 void setup()
 {
   Serial.begin(115200);
+
   while (!Serial);
 
   delay(200);
 
-  Serial.print(F("\nStarting ESP8266_MultipleServos on ")); Serial.println(ARDUINO_BOARD);
+  Serial.print(F("\nStarting ESP8266_MultipleServos on "));
+  Serial.println(ARDUINO_BOARD);
   Serial.println(ESP8266_ISR_SERVO_VERSION);
-  
+
   for (int index = 0; index < NUM_SERVOS; index++)
   {
     ISR_servo[index].servoIndex = ISR_Servo.setupServo(ISR_servo[index].servoPin, MIN_MICROS, MAX_MICROS);
 
     if (ISR_servo[index].servoIndex != -1)
     {
-      Serial.print(F("Setup OK Servo index = ")); Serial.println(ISR_servo[index].servoIndex);
+      Serial.print(F("Setup OK Servo index = "));
+      Serial.println(ISR_servo[index].servoIndex);
     }
     else
     {
-      Serial.print(F("Setup Failed Servo index = ")); Serial.println(ISR_servo[index].servoIndex);
+      Serial.print(F("Setup Failed Servo index = "));
+      Serial.println(ISR_servo[index].servoIndex);
     }
   }
 }
@@ -122,7 +126,7 @@ void loop()
     {
       ISR_Servo.setPosition(ISR_servo[index].servoIndex, (position + index * (180 / NUM_SERVOS)) % 180 );
     }
-    
+
     // waits 1s for the servo to reach the position
     delay(1000);
   }
@@ -135,7 +139,7 @@ void loop()
     {
       ISR_Servo.setPosition(ISR_servo[index].servoIndex, (position + index * (180 / NUM_SERVOS)) % 180);
     }
-    
+
     // waits 1s for the servo to reach the position
     delay(1000);
   }

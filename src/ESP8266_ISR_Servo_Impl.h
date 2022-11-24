@@ -22,7 +22,7 @@
 
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
-  
+
   The ESP8266 timers are badly designed, using only 23-bit counter along with maximum 256 prescaler. They're only better than UNO / Mega.
   The ESP8266 has two hardware timers, but timer0 has been used for WiFi and it's not advisable to use. Only timer1 is available.
   The timer1's 23-bit counter terribly can count only up to 8,388,607. So the timer1 maximum interval is very short.
@@ -73,7 +73,7 @@ void ESP8266_ISR_Servo::init()
   else
   {
     // Can't set ITimer correctly. Select another freq. or interval
-    ISR_SERVO_LOGERROR("Fail setup ESP8266_ITimer"); 
+    ISR_SERVO_LOGERROR("Fail setup ESP8266_ITimer");
   }
 
   for (int8_t servoIndex = 0; servoIndex < MAX_SERVOS; servoIndex++)
@@ -172,7 +172,7 @@ int8_t ESP8266_ISR_Servo::setupServo(const uint8_t& pin, const uint16_t& min, co
   pinMode(pin, OUTPUT);
 
   numServos++;
-  
+
   ISR_SERVO_LOGDEBUG3("Index =", servoIndex, ", count =", servo[servoIndex].count);
   ISR_SERVO_LOGDEBUG3("min =", servo[servoIndex].min, ", max =", servo[servoIndex].max);
 
@@ -188,11 +188,12 @@ bool ESP8266_ISR_Servo::setPosition(const uint8_t& servoIndex, const uint16_t& p
   if ( servo[servoIndex].enabled && (servo[servoIndex].pin <= ESP8266_MAX_PIN) )
   {
     servo[servoIndex].position  = position;
-    servo[servoIndex].count     = map(position, 0, 180, servo[servoIndex].min, servo[servoIndex].max) / TIMER_INTERVAL_MICRO;
+    servo[servoIndex].count     = map(position, 0, 180, servo[servoIndex].min,
+                                      servo[servoIndex].max) / TIMER_INTERVAL_MICRO;
 
     ISR_SERVO_LOGERROR1("Idx =", servoIndex);
-    ISR_SERVO_LOGERROR3("cnt =", servo[servoIndex].count, ", pos =",servo[servoIndex].position);
-    
+    ISR_SERVO_LOGERROR3("cnt =", servo[servoIndex].count, ", pos =", servo[servoIndex].position);
+
     return true;
   }
 
@@ -210,7 +211,7 @@ int ESP8266_ISR_Servo::getPosition(const uint8_t& servoIndex)
   if ( servo[servoIndex].enabled && (servo[servoIndex].pin <= ESP8266_MAX_PIN) )
   {
     ISR_SERVO_LOGERROR1("Idx =", servoIndex);
-    ISR_SERVO_LOGERROR3("cnt =", servo[servoIndex].count, ", pos =",servo[servoIndex].position);
+    ISR_SERVO_LOGERROR3("cnt =", servo[servoIndex].count, ", pos =", servo[servoIndex].position);
 
     return (servo[servoIndex].position);
   }
@@ -241,7 +242,7 @@ bool ESP8266_ISR_Servo::setPulseWidth(const uint8_t& servoIndex, uint16_t& pulse
     servo[servoIndex].position  = map(pulseWidth, servo[servoIndex].min, servo[servoIndex].max, 0, 180);
 
     ISR_SERVO_LOGERROR1("Idx =", servoIndex);
-    ISR_SERVO_LOGERROR3("cnt =", servo[servoIndex].count, ", pos =",servo[servoIndex].position);
+    ISR_SERVO_LOGERROR3("cnt =", servo[servoIndex].count, ", pos =", servo[servoIndex].position);
 
     return true;
   }
@@ -260,7 +261,7 @@ unsigned int ESP8266_ISR_Servo::getPulseWidth(const uint8_t& servoIndex)
   if ( servo[servoIndex].enabled && (servo[servoIndex].pin <= ESP8266_MAX_PIN) )
   {
     ISR_SERVO_LOGERROR1("Idx =", servoIndex);
-    ISR_SERVO_LOGERROR3("cnt =", servo[servoIndex].count, ", pos =",servo[servoIndex].position);
+    ISR_SERVO_LOGERROR3("cnt =", servo[servoIndex].count, ", pos =", servo[servoIndex].position);
 
     return (servo[servoIndex].count * TIMER_INTERVAL_MICRO );
   }
@@ -352,8 +353,8 @@ void ESP8266_ISR_Servo::enableAll()
   {
     // Bug fix. See "Fixed count >= min comparison for servo enable."
     // (https://github.com/khoih-prog/ESP32_ISR_Servo/pull/1)
-    if ( (servo[servoIndex].count >= servo[servoIndex].min / TIMER_INTERVAL_MICRO ) && !servo[servoIndex].enabled 
-      && (servo[servoIndex].pin <= ESP8266_MAX_PIN) )
+    if ( (servo[servoIndex].count >= servo[servoIndex].min / TIMER_INTERVAL_MICRO ) && !servo[servoIndex].enabled
+         && (servo[servoIndex].pin <= ESP8266_MAX_PIN) )
     {
       servo[servoIndex].enabled = true;
     }

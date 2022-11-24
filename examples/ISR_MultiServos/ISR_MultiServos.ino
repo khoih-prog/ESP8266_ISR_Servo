@@ -2,7 +2,7 @@
   ISR_MultiServos.ino
   For ESP8266 boards
   Written by Khoi Hoang
-  
+
   Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_ISR_Servo
   Licensed under MIT license
   The ESP8266 timers are badly designed, using only 23-bit counter along with maximum 256 prescaler. They're only better than UNO / Mega.
@@ -77,13 +77,15 @@ int servoIndex2  = -1;
 void setup()
 {
   Serial.begin(115200);
+
   while (!Serial);
 
   delay(200);
 
-  Serial.print(F("\nStarting ISR_MultiServos on ")); Serial.println(ARDUINO_BOARD);
+  Serial.print(F("\nStarting ISR_MultiServos on "));
+  Serial.println(ARDUINO_BOARD);
   Serial.println(ESP8266_ISR_SERVO_VERSION);
-  
+
   servoIndex1 = ISR_Servo.setupServo(D8, MIN_MICROS, MAX_MICROS);
   servoIndex2 = ISR_Servo.setupServo(D7, MIN_MICROS, MAX_MICROS);
 
@@ -111,10 +113,12 @@ void loop()
 
       if (position % 30 == 0)
       {
-        Serial.print(F("Servo1 pos = ")); Serial.print(position);
-        Serial.print(F(", Servo2 pos = ")); Serial.println(180 - position);
+        Serial.print(F("Servo1 pos = "));
+        Serial.print(position);
+        Serial.print(F(", Servo2 pos = "));
+        Serial.println(180 - position);
       }
-      
+
       ISR_Servo.setPosition(servoIndex1, position);
       ISR_Servo.setPosition(servoIndex2, 180 - position);
       // waits 15ms for the servo to reach the position
@@ -128,10 +132,12 @@ void loop()
       // goes from 180 degrees to 0 degrees
       if (position % 30 == 0)
       {
-        Serial.print(F("Servo1 pos = ")); Serial.print(position);
-        Serial.print(F(", Servo2 pos = ")); Serial.println(180 - position);
+        Serial.print(F("Servo1 pos = "));
+        Serial.print(position);
+        Serial.print(F(", Servo2 pos = "));
+        Serial.println(180 - position);
       }
-      
+
       ISR_Servo.setPosition(servoIndex1, position);
       ISR_Servo.setPosition(servoIndex2, 180 - position);
       // waits 15ms for the servo to reach the position

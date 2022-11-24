@@ -22,7 +22,7 @@
 
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
-  
+
   The ESP8266 timers are badly designed, using only 23-bit counter along with maximum 256 prescaler. They're only better than UNO / Mega.
   The ESP8266 has two hardware timers, but timer0 has been used for WiFi and it's not advisable to use. Only timer1 is available.
   The timer1's 23-bit counter terribly can count only up to 8,388,607. So the timer1 maximum interval is very short.
@@ -51,13 +51,13 @@
 
 #if !defined(ESP8266_ISR_SERVO_VERSION)
   #define ESP8266_ISR_SERVO_VERSION             "ESP8266_ISR_Servo v1.3.0"
-  
+
   #define ESP8266_ISR_SERVO_VERSION_MAJOR       1
   #define ESP8266_ISR_SERVO_VERSION_MINOR       3
   #define ESP8266_ISR_SERVO_VERSION_PATCH       0
 
   #define ESP8266_ISR_SERVO_VERSION_INT         1003000
-  
+
 #endif
 
 
@@ -81,11 +81,11 @@
   };
 
   //timer int_types
-  #define TIM_EDGE	0
-  #define TIM_LEVEL	1
+  #define TIM_EDGE  0
+  #define TIM_LEVEL 1
   //timer reload values
-  #define TIM_SINGLE	0 //on interrupt routine you need to write a new value to start the timer again
-  #define TIM_LOOP	1 //on interrupt the counter will start with the same value again
+  #define TIM_SINGLE  0 //on interrupt routine you need to write a new value to start the timer again
+  #define TIM_LOOP  1 //on interrupt the counter will start with the same value again
 
 */
 

@@ -2,10 +2,10 @@
   MultipleServos.ino
   For ESP8266 boards
   Written by Khoi Hoang
-  
+
   Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_ISR_Servo
   Licensed under MIT license
-  
+
   The ESP8266 timers are badly designed, using only 23-bit counter along with maximum 256 prescaler. They're only better than UNO / Mega.
   The ESP8266 has two hardware timers, but timer0 has been used for WiFi and it's not advisable to use. Only timer1 is available.
   The timer1's 23-bit counter terribly can count only up to 8,388,607. So the timer1 maximum interval is very short.
@@ -113,6 +113,7 @@ void loop()
     {
       ISR_Servo.setPosition(ISR_servo[index].servoIndex, (position + index * (180 / NUM_SERVOS)) % 180 );
     }
+
     // waits 1s for the servo to reach the position
     delay(1000);
   }
@@ -125,6 +126,7 @@ void loop()
     {
       ISR_Servo.setPosition(ISR_servo[index].servoIndex, (position + index * (180 / NUM_SERVOS)) % 180);
     }
+
     // waits 1s for the servo to reach the position
     delay(1000);
   }

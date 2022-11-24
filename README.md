@@ -6,8 +6,12 @@
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#Contributing)
 [![GitHub issues](https://img.shields.io/github/issues/khoih-prog/ESP8266_ISR_Servo.svg)](http://github.com/khoih-prog/ESP8266_ISR_Servo/issues)
 
+
 <a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Donate to my libraries using BuyMeACoffee" style="height: 50px !important;width: 181px !important;" ></a>
 <a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-orange.svg?logo=buy-me-a-coffee&logoColor=FFDD00" style="height: 20px !important;width: 200px !important;" ></a>
+<a href="https://profile-counter.glitch.me/khoih-prog/count.svg" title="Total khoih-prog Visitor count"><img src="https://profile-counter.glitch.me/khoih-prog/count.svg" style="height: 30px;width: 200px;"></a>
+<a href="https://profile-counter.glitch.me/khoih-prog-ESP8266_ISR_Servo/count.svg" title="ESP8266_ISR_Servo Visitor count"><img src="https://profile-counter.glitch.me/khoih-prog-ESP8266_ISR_Servo/count.svg" style="height: 30px;width: 200px;"></a>
+
 
 ---
 ---
@@ -59,8 +63,6 @@
 ### Important Change from v1.3.0
 
 Please have a look at [HOWTO Fix `Multiple Definitions` Linker Error](#howto-fix-multiple-definitions-linker-error)
-
-
 
 ---
 ---
@@ -147,14 +149,14 @@ The current library implementation, using `xyz-Impl.h` instead of standard `xyz.
 
 You can include this `.hpp` file
 
-```
+```cpp
 // Can be included as many times as necessary, without `Multiple Definitions` Linker Error
 #include "ESP8266_ISR_Servo.hpp"     //https://github.com/khoih-prog/ESP8266_ISR_Servo
 ```
 
 in many files. But be sure to use the following `.h` file **in just 1 `.h`, `.cpp` or `.ino` file**, which must **not be included in any other file**, to avoid `Multiple Definitions` Linker Error
 
-```
+```cpp
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
 #include "ESP8266_ISR_Servo.h"           //https://github.com/khoih-prog/ESP8266_ISR_Servo
 ```
@@ -186,7 +188,7 @@ The timer1 counters can be configured to support automatic reload.
 
 ### New functions
 
-```
+```cpp
 // returns last position in degrees if success, or -1 on wrong servoIndex
 int getPosition(unsigned servoIndex);
 
@@ -249,7 +251,7 @@ https://github.com/khoih-prog/ESP8266_ISR_Servo/blob/9a8757117d2c901bed222990f11
 
 ### 1. ESP8266_MultipleRandomServos on ESP8266_NODEMCU_ESP12E
 
-```
+```cpp
 Starting ESP8266_MultipleRandomServos on ESP8266_NODEMCU_ESP12E
 ESP8266_ISR_Servo v1.3.0
 [ISR_SERVO] ESP8266FastTimerInterrupt: _fre = 5000000.00 , _count = 50
@@ -353,7 +355,7 @@ Servos idx = 5, act. pos. (deg) = [ISR_SERVO] Idx = 5
 ### 2. ESP8266_ISR_MultiServos on ESP8266_NODEMCU_ESP12E
 
 
-```
+```cpp
 Starting ESP8266_ISR_MultiServos on ESP8266_NODEMCU_ESP12E
 ESP8266_ISR_Servo v1.3.0
 [ISR_SERVO] ESP8266FastTimerInterrupt: _fre = 5000000.00 , _count = 50
@@ -480,4 +482,4 @@ If you want to contribute to this project:
 
 ## Copyright
 
-Copyright 2019- Khoi Hoang
+Copyright (c) 2019- Khoi Hoang

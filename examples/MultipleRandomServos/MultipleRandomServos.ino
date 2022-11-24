@@ -2,10 +2,10 @@
   MultipleRandomServos.ino
   For ESP8266 boards
   Written by Khoi Hoang
-  
+
   Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_ISR_Servo
   Licensed under MIT license
-  
+
   The ESP8266 timers are badly designed, using only 23-bit counter along with maximum 256 prescaler. They're only better than UNO / Mega.
   The ESP8266 has two hardware timers, but timer0 has been used for WiFi and it's not advisable to use. Only timer1 is available.
   The timer1's 23-bit counter terribly can count only up to 8,388,607. So the timer1 maximum interval is very short.
@@ -88,11 +88,13 @@ ISR_servo_t ISR_servo[NUM_SERVOS] =
 void setup()
 {
   Serial.begin(115200);
+
   while (!Serial);
 
   delay(200);
 
-  Serial.print(F("\nStarting MultipleRandomServos on ")); Serial.println(ARDUINO_BOARD);
+  Serial.print(F("\nStarting MultipleRandomServos on "));
+  Serial.println(ARDUINO_BOARD);
   Serial.println(ESP8266_ISR_SERVO_VERSION);
 
   for (int index = 0; index < NUM_SERVOS; index++)
@@ -101,11 +103,13 @@ void setup()
 
     if (ISR_servo[index].servoIndex != -1)
     {
-      Serial.print(F("Setup OK Servo index = ")); Serial.println(ISR_servo[index].servoIndex);
+      Serial.print(F("Setup OK Servo index = "));
+      Serial.println(ISR_servo[index].servoIndex);
     }
     else
     {
-      Serial.print(F("Setup Failed Servo index = ")); Serial.println(ISR_servo[index].servoIndex);
+      Serial.print(F("Setup Failed Servo index = "));
+      Serial.println(ISR_servo[index].servoIndex);
     }
   }
 }
@@ -126,42 +130,42 @@ void loop()
 
   position = 0;
   Serial.println(F("Servos @ 0 degree"));
-  
+
   for (int index = 0; index < NUM_SERVOS; index++)
   {
     ISR_Servo.setPosition(ISR_servo[index].servoIndex, position );
     printServoInfo(index);
   }
-  
+
   // waits 5s between test
   delay(5000);
 
   position = 90;
   Serial.println(F("Servos @ 90 degree"));
-  
+
   for (int index = 0; index < NUM_SERVOS; index++)
   {
     ISR_Servo.setPosition(ISR_servo[index].servoIndex, position );
     printServoInfo(index);
   }
-  
+
   // waits 5s between test
   delay(5000);
 
   position = 180;
   Serial.println(F("Servos @ 180 degree"));
-  
+
   for (int index = 0; index < NUM_SERVOS; index++)
   {
     ISR_Servo.setPosition(ISR_servo[index].servoIndex, position );
     printServoInfo(index);
   }
-  
+
   // waits 5s between test
   delay(5000);
 
   Serial.println(F("Servos sweeps from 0-180 degress"));
-  
+
   for (position = 0; position <= 180; position += 1)
   {
     // goes from 0 degrees to 180 degrees
@@ -170,16 +174,16 @@ void loop()
     {
       ISR_Servo.setPosition(ISR_servo[index].servoIndex, position );
     }
-    
+
     // waits 50ms for the servo to reach the position
     delay(50);
   }
-  
+
   // waits 5s between test
   delay(5000);
 
   Serial.println(F("Servos sweeps from 180-0 degress"));
-  
+
   for (position = 180; position >= 0; position -= 1)
   {
     // goes from 0 degrees to 180 degrees
@@ -188,16 +192,16 @@ void loop()
     {
       ISR_Servo.setPosition(ISR_servo[index].servoIndex, position );
     }
-    
+
     // waits 50ms for the servo to reach the position
     delay(50);
   }
-  
+
   // waits 5s between test
   delay(5000);
 
   Serial.println(F("Servos, index depending, be somewhere from 0-180 degress"));
-  
+
   for (position = 0; position <= 180; position += 1)
   {
     // goes from 0 degrees to 180 degrees
@@ -206,15 +210,15 @@ void loop()
     {
       ISR_Servo.setPosition(ISR_servo[index].servoIndex, (position + index * (180 / NUM_SERVOS)) % 180 );
     }
-    
+
     // waits 50ms for the servo to reach the position
     delay(50);
   }
-  
+
   delay(5000);
 
   Serial.println(F("Servos, index depending, be somewhere from 180-0 degress"));
-  
+
   for (position = 180; position >= 0; position -= 1)
   {
     // goes from 0 degrees to 180 degrees
@@ -223,11 +227,11 @@ void loop()
     {
       ISR_Servo.setPosition(ISR_servo[index].servoIndex, (position + index * (180 / NUM_SERVOS)) % 180 );
     }
-    
+
     // waits 50ms for the servo to reach the position
     delay(50);
   }
-  
+
   // waits 5s between test
   delay(5000);
 }
