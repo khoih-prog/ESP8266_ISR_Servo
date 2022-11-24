@@ -220,7 +220,7 @@ in loop(), using delay() function as an example. The elapsed time then is very u
 
 How to use:
 
-https://github.com/khoih-prog/ESP8266_ISR_Servo/blob/9a8757117d2c901bed222990f1154b4cfa3fb7fd/examples/ESP8266_ISR_MultiServos/ESP8266_ISR_MultiServos.ino#L70-L147
+https://github.com/khoih-prog/ESP8266_ISR_Servo/blob/114dc0c80192ecb9ba71f14c1b95ed7c9957a930/examples/ESP8266_ISR_MultiServos/ESP8266_ISR_MultiServos.ino#L70-L151
 
 
 ---
@@ -241,7 +241,7 @@ https://github.com/khoih-prog/ESP8266_ISR_Servo/blob/9a8757117d2c901bed222990f11
 
 ### Example [ESP8266_MultipleRandomServos](examples/ESP8266_MultipleRandomServos)
 
-https://github.com/khoih-prog/ESP8266_ISR_Servo/blob/9a8757117d2c901bed222990f1154b4cfa3fb7fd/examples/ESP8266_MultipleRandomServos/ESP8266_MultipleRandomServos.ino#L61-L233
+https://github.com/khoih-prog/ESP8266_ISR_Servo/blob/114dc0c80192ecb9ba71f14c1b95ed7c9957a930/examples/ESP8266_MultipleRandomServos/ESP8266_MultipleRandomServos.ino#L61-L237
 
 
 ---
@@ -444,7 +444,7 @@ Submit issues to: [ESP8266_ISR_Servo issues](https://github.com/khoih-prog/ESP82
 6. Convert to `h-only` style.
 7. Add example [multiFileProject](examples/multiFileProject) to demo for multiple-file project
 8. Optimize code by using passing by `reference` instead of by `value`
-
+9. Add astyle using `allman` style. Restyle the library
 
 ---
 ---
